@@ -1,6 +1,45 @@
 <template>
   <div class="about">
-    <div class="top">11</div>
+    <div class="top">
+      <div class="top_one">
+        <!-- <div class="top_one_left">
+          <van-image
+            round
+            width="80px"
+            height="80px"
+            src="https://img01.yzcdn.cn/vant/cat.jpeg"
+          />
+        </div> -->
+        <div class="top_one_right">
+          <div class="top_one_right_one">账号：1123213123</div>
+          <div class="top_one_right_two">
+            <van-button type="info" size="small">退出登录</van-button>
+          </div>
+        </div>
+      </div>
+      <div class="top_two">
+        <div class="top_two_left">
+          <van-circle v-model="currentRate" :color="gradientColor">
+            <template>
+              <div class="circle">
+                <div>发单总量</div>
+                <div>10</div>
+              </div>
+            </template>
+          </van-circle>
+        </div>
+        <div class="top_two_right">
+          <van-circle v-model="currentRate" :color="gradientColor">
+            <template>
+              <div class="circle">
+                <div>接单总量</div>
+                <div>10</div>
+              </div>
+            </template>
+          </van-circle>
+        </div>
+      </div>
+    </div>
     <div class="main">
       <div class="foot_one">我的发单</div>
       <div class="foot_two">
@@ -27,7 +66,13 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      currentRate: 0,
+      gradientColor: {
+        '0%': '#3fecff',
+        '100%': '#6149f6',
+      },
+    };
   },
   methods: {},
 };
@@ -48,18 +93,76 @@ export default {
   flex-direction: column;
   overflow: hidden;
   .top {
-    background: greenyellow;
-    flex: 1;
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    // background: powderblue;
+    .top_one {
+      // background: pink;
+      flex-grow: 0.2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+      .top_one_left {
+        flex-grow: 0.5;
+        background: white;
+      }
+      .top_one_right {
+        flex-grow: 1;
+        .top_one_right_one {
+          color: white;
+          font-size: 14px;
+          // background: wheat;
+          height: 30px;
+          text-align: left;
+          padding-left: 20px;
+        }
+        .top_one_right_two {
+          display: flex;
+          justify-content: flex-end;
+          margin-right: 10px;
+        }
+      }
+    }
+    .top_two {
+      // background: greenyellow;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .top_two_left {
+        flex-grow: 1;
+        // background: #ccc;
+
+        .circle {
+          height: 100%;
+          font-size: 17px;
+          margin-top: 30px;
+          color: white;
+        }
+      }
+      .top_two_right {
+        flex-grow: 1;
+        .circle {
+          height: 100%;
+          font-size: 17px;
+          margin-top: 30px;
+          color: white;
+        }
+      }
+    }
   }
   .main {
     // overflow: auto;
-    height: 150px;
+    height: 130px;
   }
   .foot,
   .main {
-    font-size: 20px;
+    font-size: 15px;
     box-sizing: border-box;
-    height: 150px;
+    height: 130px;
     border: 2px solid white;
     margin: 0 20px 20px 20px;
     border-radius: 15px;
@@ -68,7 +171,7 @@ export default {
 
     .foot_one {
       color: white;
-      height: 40px;
+      height: 30px;
       border-top-left-radius: 13px;
       border-top-right-radius: 13px;
       // background: white;
@@ -77,14 +180,14 @@ export default {
       justify-content: center;
     }
     .foot_two {
-      height: 110px;
+      height: 100px;
       display: flex;
       flex-direction: row;
       background: white;
       border-bottom-left-radius: 15px;
       border-bottom-right-radius: 15px;
       .tab {
-        height: 110px;
+        height: 100px;
         position: static;
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
