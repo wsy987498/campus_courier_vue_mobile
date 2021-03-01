@@ -13,6 +13,9 @@ import {
   Tag,
   Grid,
   GridItem,
+  Image as VanImage,
+  Circle,
+
 } from 'vant';
 
 Vue.use(Button)
@@ -28,3 +31,5 @@ Vue.use(Button)
   .use(Tag)
   .use(Grid)
   .use(GridItem)
+  .use(VanImage)
+  .use(Circle)
