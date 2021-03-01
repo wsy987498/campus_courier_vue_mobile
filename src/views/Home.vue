@@ -42,14 +42,14 @@ export default {
   flex-direction: column;
   overflow: hidden;
   .top {
-    background: greenyellow;
+    // background: greenyellow;
   }
   .main {
     flex: 1;
     overflow: auto;
   }
   .foot {
-    background: greenyellow;
+    // background: greenyellow;
   }
 }
 </style>
