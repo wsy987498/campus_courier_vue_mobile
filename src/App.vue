@@ -56,7 +56,7 @@ export default {
     font-size: 16px;
     height: 30px;
     line-height: 30px;
-    background: #87cefa;
+    background: #1989fa;
   }
   .main {
     flex: 1;

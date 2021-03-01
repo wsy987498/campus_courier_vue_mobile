@@ -10,6 +10,9 @@ import {
   PullRefresh,
   cell,
   Empty,
+  Tag,
+  Grid,
+  GridItem,
 } from 'vant';
 
 Vue.use(Button)
@@ -21,4 +24,7 @@ Vue.use(Button)
   .use(List)
   .use(PullRefresh)
   .use(cell)
-  .use(Empty);
+  .use(Empty)
+  .use(Tag)
+  .use(Grid)
+  .use(GridItem)
