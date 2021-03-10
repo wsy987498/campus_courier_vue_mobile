@@ -11,7 +11,7 @@
           />
         </div> -->
         <div class="top_one_right">
-          <div class="top_one_right_one">账号：1123213123</div>
+          <div class="top_one_right_one">您好，1123213123！</div>
           <div class="top_one_right_two">
             <van-button type="info" size="small" @click="logout"
               >退出登录</van-button
@@ -46,9 +46,15 @@
       <div class="foot_one">我的发单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="search">待接单</van-tabbar-item>
-          <van-tabbar-item icon="search" badge="3">派送中</van-tabbar-item>
-          <van-tabbar-item icon="search">已完成</van-tabbar-item>
+          <van-tabbar-item icon="search" @click="waitOrder" badge=""
+            >待接单</van-tabbar-item
+          >
+          <van-tabbar-item icon="search" @click="isDelivery" badge="3"
+            >派送中</van-tabbar-item
+          >
+          <van-tabbar-item icon="search" @click="fadanfinished" badge="3"
+            >已完成</van-tabbar-item
+          >
         </van-tabbar>
       </div>
     </div>
@@ -56,8 +62,11 @@
       <div class="foot_one">我的接单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="search" badge="3">已接单</van-tabbar-item>
-          <van-tabbar-item icon="search">已完成</van-tabbar-item
+          <van-tabbar-item icon="search" @click="haveOrder" badge="3"
+            >已接单</van-tabbar-item
+          >
+          <van-tabbar-item icon="search" @click="jiedanfinished" badge="3"
+            >已完成</van-tabbar-item
           ><van-tabbar-item></van-tabbar-item>
         </van-tabbar>
       </div>
@@ -102,6 +111,26 @@ export default {
           // on cancel
         });
     },
+    // 待接单
+    waitOrder() {
+      this.$router.push('/mywaitorder');
+    },
+    // 派送中
+    isDelivery() {
+      this.$router.push('/mydelivery');
+    },
+    // 发单已完成
+    fadanfinished() {
+      this.$router.push('/myhaveorder');
+    },
+    // 已接单
+    haveOrder() {
+      this.$router.push('/myfinished');
+    },
+    //接单已完成
+    jiedanfinished() {
+      this.$router.push('/myhaveorderfinished');
+    },
   },
 };
 </script>
@@ -140,7 +169,7 @@ export default {
         flex-grow: 1;
         .top_one_right_one {
           color: white;
-          font-size: 14px;
+          font-size: 16px;
           // background: wheat;
           height: 30px;
           text-align: left;

@@ -31,6 +31,34 @@ const routes = [
     path: '/newTask',
     name: 'newTask',
     component: () => import('../views/NewTask.vue')
+  },
+  {
+    path: '/mydelivery',
+    name: 'mydelivery',
+    component: () => import('../components/mySendOrder/myDelivery.vue')
+  },
+  {
+    path: '/myfinished',
+    name: 'myfinished',
+    component: () => import('../components/mySendOrder/myFinished.vue')
+  }
+  ,
+  {
+    path: '/mywaitorder',
+    name: 'mywaitorder',
+    component: () => import('../components/mySendOrder/myWaitOrder.vue')
+  }
+  ,
+  {
+    path: '/myhaveorder',
+    name: 'myhaveorder',
+    component: () => import('../components/muHaveOrder/myHaveOrder.vue')
+  }
+  ,
+  {
+    path: '/myhaveorderfinished',
+    name: 'myhaveorderfinished',
+    component: () => import('../components/muHaveOrder/myHaveOrderFinished.vue')
   }
 ]
 

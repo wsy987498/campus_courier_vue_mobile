@@ -10,10 +10,15 @@
         <div class="top">校园快递</div>
       </div>
       <van-nav-bar
-        title="新建"
+        :title="navTitle()"
+        left-text="返回"
         left-arrow
         @click-left="onClickLeft"
-        v-if="this.$route.fullPath == '/newTask'"
+        v-if="
+          this.$route.fullPath != '/home' &&
+            this.$route.fullPath != '/about' &&
+            this.$route.fullPath != '/login'
+        "
       />
       <div class="main">
         <!-- <keep-alive> -->
@@ -40,6 +45,7 @@ export default {
   data() {
     return { active: 0 };
   },
+
   methods: {
     indexClick() {
       if (this.$route.fullPath === '/home') return;
@@ -49,8 +55,25 @@ export default {
       if (this.$route.fullPath === '/about') return;
       this.$router.push('/about');
     },
+
     onClickLeft() {
       this.$router.go(-1);
+    },
+    navTitle() {
+      if (this.$route.fullPath === '/newTask') {
+        return '新建';
+      } else if (
+        this.$route.fullPath == '/mywaitorder' ||
+        this.$route.fullPath == '/mydelivery' ||
+        this.$route.fullPath == '/myhaveorder'
+      ) {
+        return '我的发单';
+      } else if (
+        this.$route.fullPath == '/myfinished' ||
+        this.$route.fullPath == '/myhaveorderfinished'
+      ) {
+        return '我的接单';
+      }
     },
   },
 };
