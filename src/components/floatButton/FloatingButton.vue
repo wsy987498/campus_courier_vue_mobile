@@ -29,12 +29,19 @@ export default {
   height: 44px;
   color: white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  background: -webkit-gradient(
+  // background: -webkit-gradient(
+  //   linear,
+  //   0% 100%,
+  //   100% 0%,
+  //   color-stop(0.3, rgb(255, 98, 98)),
+  //   to(rgb(255, 169, 71))
+  // );
+  background-image: -webkit-gradient(
     linear,
     0% 100%,
-    100% 0%,
-    color-stop(0.3, rgb(255, 98, 98)),
-    to(rgb(255, 169, 71))
+    0% 0%,
+    color-stop(0.5, rgb(91, 157, 249)),
+    to(rgb(71, 191, 255))
   );
   transition: all 0.5s ease;
 }
