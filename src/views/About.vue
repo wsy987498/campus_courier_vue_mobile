@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about" v-if="islogin">
     <div class="top">
       <div class="top_one">
         <!-- <div class="top_one_left">
@@ -13,7 +13,9 @@
         <div class="top_one_right">
           <div class="top_one_right_one">账号：1123213123</div>
           <div class="top_one_right_two">
-            <van-button type="info" size="small">退出登录</van-button>
+            <van-button type="info" size="small" @click="logout"
+              >退出登录</van-button
+            >
           </div>
         </div>
       </div>
@@ -61,6 +63,14 @@
       </div>
     </div>
   </div>
+
+  <div v-else>
+    <van-empty description="您还没有登录！">
+      <van-button round type="info" class="bottom-button" @click="gotologin"
+        >登录 or 注册</van-button
+      >
+    </van-empty>
+  </div>
 </template>
 
 <script>
@@ -72,9 +82,27 @@ export default {
         '0%': '#3fecff',
         '100%': '#6149f6',
       },
+      islogin: true,
     };
   },
-  methods: {},
+  methods: {
+    gotologin() {
+      this.$router.push('/login');
+    },
+    logout() {
+      this.$dialog
+        .confirm({
+          title: '确认退出吗?',
+        })
+        .then(() => {
+          // on confirm
+          this.islogin = false;
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+  },
 };
 </script>
 

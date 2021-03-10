@@ -11,6 +11,8 @@
       <list-item @childListData="getchildListData($event)" />
       <van-empty description="暂无数据" v-if="this.childListData == 0" />
     </div>
+    <!-- 发布消息 -->
+    <FloatingButton />
   </div>
 </template>
 
@@ -18,9 +20,10 @@
 import noticeBar from '@/components/noticeBar/noticeBar';
 import selectItem from '@/components/selectItem/selectItem';
 import listItem from '@/components/listItem/listItem';
+import FloatingButton from '@/components/floatButton/FloatingButton';
 export default {
   name: 'Home',
-  components: { noticeBar, selectItem, listItem },
+  components: { noticeBar, selectItem, listItem, FloatingButton },
   data() {
     return {
       text: '欢迎使用！',
