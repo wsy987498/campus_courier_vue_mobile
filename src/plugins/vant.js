@@ -18,7 +18,11 @@ import {
   Form,
   Field,
   Toast,
-  Dialog
+  Dialog,
+  NavBar,
+  Picker,
+  Popup,
+  DatetimePicker
 } from 'vant';
 
 Vue.use(Button)
@@ -40,4 +44,8 @@ Vue.use(Button)
   .use(Field)
   .use(Toast)
   .use(Dialog)
+  .use(NavBar)
+  .use(Picker)
+  .use(Popup)
+  .use(DatetimePicker)
 

@@ -1,9 +1,20 @@
 <template>
   <div id="app">
     <div class="container">
-      <div class="head" v-if="this.$route.fullPath != '/login'">
+      <div
+        class="head"
+        v-if="
+          this.$route.fullPath == '/home' || this.$route.fullPath == '/about'
+        "
+      >
         <div class="top">校园快递</div>
       </div>
+      <van-nav-bar
+        title="新建"
+        left-arrow
+        @click-left="onClickLeft"
+        v-if="this.$route.fullPath == '/newTask'"
+      />
       <div class="main">
         <!-- <keep-alive> -->
         <transition mode="out-in">
@@ -38,6 +49,9 @@ export default {
       if (this.$route.fullPath === '/about') return;
       this.$router.push('/about');
     },
+    onClickLeft() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
@@ -64,7 +78,8 @@ export default {
   }
   .main {
     flex: 1;
-    overflow: hidden;
+    // overflow: hidden;
+    overflow: auto;
   }
   .foot {
     height: 50px;
