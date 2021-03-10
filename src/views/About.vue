@@ -46,13 +46,13 @@
       <div class="foot_one">我的发单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="search" @click="waitOrder" badge=""
+          <van-tabbar-item icon="wap-nav" @click="waitOrder" badge=""
             >待接单</van-tabbar-item
           >
-          <van-tabbar-item icon="search" @click="isDelivery" badge="3"
+          <van-tabbar-item icon="wap-nav" @click="isDelivery" badge="3"
             >派送中</van-tabbar-item
           >
-          <van-tabbar-item icon="search" @click="fadanfinished" badge="3"
+          <van-tabbar-item icon="wap-nav" @click="fadanfinished" badge="3"
             >已完成</van-tabbar-item
           >
         </van-tabbar>
@@ -62,10 +62,10 @@
       <div class="foot_one">我的接单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="search" @click="haveOrder" badge="3"
+          <van-tabbar-item icon="wap-nav" @click="haveOrder" badge="3"
             >已接单</van-tabbar-item
           >
-          <van-tabbar-item icon="search" @click="jiedanfinished" badge="3"
+          <van-tabbar-item icon="wap-nav" @click="jiedanfinished" badge="3"
             >已完成</van-tabbar-item
           ><van-tabbar-item></van-tabbar-item>
         </van-tabbar>
@@ -111,7 +111,7 @@ export default {
           // on cancel
         });
     },
-    // 待接单
+    // fa 待接单
     waitOrder() {
       this.$router.push('/mywaitorder');
     },
@@ -121,15 +121,15 @@ export default {
     },
     // 发单已完成
     fadanfinished() {
-      this.$router.push('/myhaveorder');
+      this.$router.push('/fayiwancheng');
     },
-    // 已接单
+    // 我的接单 已接单
     haveOrder() {
-      this.$router.push('/myfinished');
+      this.$router.push('/jieyijiedan');
     },
     //接单已完成
     jiedanfinished() {
-      this.$router.push('/myhaveorderfinished');
+      this.$router.push('/jieyiwancheng');
     },
   },
 };

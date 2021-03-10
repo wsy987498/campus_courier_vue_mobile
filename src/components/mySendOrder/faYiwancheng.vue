@@ -1,41 +1,42 @@
 <template>
-  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <div class="card_box" v-for="item in list" :key="item">
-        <!-- head -->
-        <div class="head">
-          <div class="head_left">
-            <span>中通快递</span>
-            <span class="tag">
-              <van-tag round size="large" type="primary">赏金：2元</van-tag>
-            </span>
+  <div class="myFinished">
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="card_box" v-for="item in list" :key="item">
+          <!-- head -->
+          <div class="head">
+            <div class="head_left">
+              <span>中通快递</span>
+              <span class="tag">
+                <van-tag round size="large" type="primary">赏金：2元</van-tag>
+              </span>
+            </div>
+            <div class="head_right"><span>10分钟前</span></div>
           </div>
-          <div class="head_right"><span>10分钟前</span></div>
-        </div>
-        <!-- main -->
-        <div class="main">
-          <div class="one">配送地址：北海校区东区2#E320</div>
-          <div class="two">期望送达时间：2021-2-28 15:00</div>
-        </div>
-        <!-- foot -->
-        <div class="foot">
-          <div class="foot_left">
-            <span>快递类型：大包裹</span>
+          <!-- main -->
+          <div class="main">
+            <div class="one">配送地址：北海校区东区2#E320</div>
+            <div class="two">期望送达时间：2021-2-28 15:00</div>
           </div>
-          <div class="foot_right">
-            <van-button type="info" size="small">立即接单</van-button>
+          <!-- foot -->
+          <div class="foot">
+            <div class="foot_left">
+              <span>快递类型：大包裹</span>
+            </div>
+            <div class="foot_right">
+              <van-button type="info" size="small">立即接单</van-button>
+            </div>
           </div>
         </div>
-      </div>
-    </van-list>
-  </van-pull-refresh>
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -59,7 +60,7 @@ export default {
           this.list.push(this.list.length + 1);
         }
         this.loading = false;
-        if (this.list.length >= 40) {
+        if (this.list.length >= 20) {
           this.finished = true;
         }
         this.$emit('childListData', this.list);

@@ -60,19 +60,19 @@ export default {
       this.$router.go(-1);
     },
     navTitle() {
-      if (this.$route.fullPath === '/newTask') {
+      let key = this.$route.fullPath;
+      if (key == '/newTask') {
         return '新建';
-      } else if (
-        this.$route.fullPath == '/mywaitorder' ||
-        this.$route.fullPath == '/mydelivery' ||
-        this.$route.fullPath == '/myhaveorder'
-      ) {
-        return '我的发单';
-      } else if (
-        this.$route.fullPath == '/myfinished' ||
-        this.$route.fullPath == '/myhaveorderfinished'
-      ) {
-        return '我的接单';
+      } else if (key == '/mywaitorder') {
+        return '我的发单-待接单';
+      } else if (key == '/mydelivery') {
+        return '我的发单-派送中';
+      } else if (key == '/fayiwancheng') {
+        return '我的发单-已完成';
+      } else if (key == '/jieyiwancheng') {
+        return '我的接单-已完成';
+      } else if (key == '/jieyijiedan') {
+        return '我的接单-已接单';
       }
     },
   },
