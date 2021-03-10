@@ -15,7 +15,10 @@ import {
   GridItem,
   Image as VanImage,
   Circle,
-
+  Form,
+  Field,
+  Toast,
+  Dialog
 } from 'vant';
 
 Vue.use(Button)
@@ -33,3 +36,8 @@ Vue.use(Button)
   .use(GridItem)
   .use(VanImage)
   .use(Circle)
+  .use(Form)
+  .use(Field)
+  .use(Toast)
+  .use(Dialog)
+

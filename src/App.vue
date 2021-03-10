@@ -1,11 +1,15 @@
 <template>
   <div id="app">
     <div class="container">
-      <div class="head">
+      <div class="head" v-if="this.$route.fullPath != '/login'">
         <div class="top">校园快递</div>
       </div>
       <div class="main">
-        <router-view />
+        <!-- <keep-alive> -->
+        <transition mode="out-in">
+          <router-view />
+        </transition>
+        <!-- </keep-alive> -->
       </div>
       <div class="foot">
         <van-tabbar v-model="active">
@@ -27,7 +31,7 @@ export default {
   },
   methods: {
     indexClick() {
-      if (this.$route.fullPath === '/') return;
+      if (this.$route.fullPath === '/home') return;
       this.$router.push('/');
     },
     myClick() {
@@ -66,5 +70,23 @@ export default {
     height: 50px;
     background: pink;
   }
+}
+.v-enter {
+  opacity: 0;
+}
+.v-enter-active {
+  transition: 0.3s;
+}
+.v-enter-to {
+  opacity: 0.6;
+}
+.v-leave {
+  opacity: 0.6;
+}
+.v-leave-to {
+  opacity: 0;
+}
+.v-leave-active {
+  transition: 0.3s;
 }
 </style>
