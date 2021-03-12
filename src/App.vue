@@ -23,7 +23,7 @@
       <div class="main">
         <!-- <keep-alive> -->
         <transition mode="out-in">
-          <router-view />
+          <router-view v-if="isRouterAlive" />
         </transition>
         <!-- </keep-alive> -->
       </div>
@@ -42,11 +42,20 @@
 </template>
 <script>
 export default {
+  provide() {
+    return {
+      reload: this.reload,
+    };
+  },
   data() {
-    return { active: 0 };
+    return { active: 0, isRouterAlive: true };
   },
 
   methods: {
+    reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => (this.isRouterAlive = true));
+    },
     indexClick() {
       if (this.$route.fullPath === '/home') return;
       this.$router.push('/');

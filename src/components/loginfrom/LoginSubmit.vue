@@ -8,6 +8,7 @@
 </template>
 <script>
 export default {
+  inject: ['reload'],
   props: {
     loginFormData: Object,
   },
@@ -26,35 +27,50 @@ export default {
       }
     },
     async login() {
-      console.log('login', this.loginForm);
+      // console.log('login', this.loginForm);
       const isnull = this.isNull();
       if (isnull) return;
-      // const { data: res } = await this.$axios.post('login', this.loginForm);
-      // console.log(res);
-      // if (res.code == 200) {
-      //   this.$message.success(res.msg);
-      //   window.sessionStorage.setItem('token', res.token);
-      //   window.sessionStorage.setItem('aname', res.username);
-      //   this.$router.push('/home');
-      // } else {
-      //   this.$message.error(res.msg);
-      //   this.loginForm.username = '';
-      //   this.loginForm.password = '';
-      // }
+
+      const { data: res } = await this.$axios.Post(
+        this.$api.login,
+        this.loginForm,
+      );
+      console.log(res);
+
+      if (res.code == 202) {
+        this.$toast({
+          message: res.msg,
+          icon: 'cross',
+        });
+        this.loginForm.username = '';
+        this.loginForm.password = '';
+      } else if (res.code == 200) {
+        this.$toast.success(res.msg);
+        window.sessionStorage.setItem('token', res.token);
+        window.sessionStorage.setItem('username', res.username);
+        this.$router.push('/home');
+      }
     },
     async register() {
-      console.log('register', this.loginForm);
-      // const isnull = this.isNull();
-      // if (isnull) return;
-      // const { data: res } = await this.$axios.post('register', this.loginForm);
-      // console.log(res);
-      // if (res.code == 200) {
-      //   this.$message.success(res.msg);
-      // } else {
-      //   this.$message.error(res.msg);
-      //   this.loginForm.username = '';
-      //   this.loginForm.password = '';
-      // }
+      // console.log('register', this.loginForm);
+      const isnull = this.isNull();
+      if (isnull) return;
+      const { data: res } = await this.$axios.Post(
+        this.$api.register,
+        this.loginForm,
+      );
+
+      if (res.code == 200) {
+        this.$toast.success(res.msg);
+        this.reload();
+      } else {
+        this.$toast({
+          message: res.msg,
+          icon: 'cross',
+        });
+        this.loginForm.username = '';
+        this.loginForm.password = '';
+      }
     },
   },
 };

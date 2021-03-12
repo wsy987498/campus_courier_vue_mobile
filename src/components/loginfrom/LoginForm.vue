@@ -1,7 +1,8 @@
 <template>
   <form class="login_form">
     <div class="login_form_r2">
-      <van-form @submit="onSubmit" class="vantform">
+      <!--  @submit="onSubmit" -->
+      <van-form class="vantform">
         <van-field
           v-model="loginForm.username"
           name="账号"
@@ -40,9 +41,9 @@ export default {
     LoginSubmit,
   },
   methods: {
-    onSubmit(values) {
-      console.log('submit', values);
-    },
+    // onSubmit(values) {
+    //   console.log('submit', values);
+    // },
   },
 };
 </script>
