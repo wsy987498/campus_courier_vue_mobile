@@ -6,6 +6,15 @@ import './plugins/vant'
 import 'amfe-flexible/index.js'
 import './assets/css/global.css'
 
+//nprogress
+import 'nprogress/nprogress.css'
+// axios 
+import axios from "./api/http";
+// api
+import api from "./api/api";
+Vue.prototype.$axios = axios
+Vue.prototype.$api = api
+
 Vue.config.productionTip = false
 
 new Vue({
