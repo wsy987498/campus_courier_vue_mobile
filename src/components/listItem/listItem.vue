@@ -6,26 +6,47 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <div class="card_box" v-for="item in list" :key="item">
+      <div class="card_box" v-for="item in list" :key="item.express_id">
         <!-- head -->
         <div class="head">
           <div class="head_left">
-            <span>中通快递</span>
+            <span>
+              <!-- 中通快递 -->
+              {{ item.express_name }}
+            </span>
             <span class="tag">
-              <van-tag round size="large" type="primary">赏金：2元</van-tag>
+              <van-tag round size="large" type="primary"
+                >赏金：{{ item.express_money }} 元</van-tag
+              >
             </span>
           </div>
-          <div class="head_right"><span>10分钟前</span></div>
+          <div class="head_right">
+            <span>
+              10分钟前
+            </span>
+          </div>
         </div>
         <!-- main -->
         <div class="main">
-          <div class="one">配送地址：北海校区东区2#E320</div>
-          <div class="two">期望送达时间：2021-2-28 15:00</div>
+          <div class="one">
+            配送地址：
+            <!-- 北海校区东区2#E320 -->
+            {{ item.delivery_address }}
+          </div>
+          <div class="two">
+            期望送达时间：
+            <!-- 2021-2-28 15:00 -->
+            {{ item.forward_delivery_time }}
+          </div>
         </div>
         <!-- foot -->
         <div class="foot">
           <div class="foot_left">
-            <span>快递类型：大包裹</span>
+            <span>
+              快递类型：
+              <!-- 大包裹 -->
+              {{ item.express_type }}
+            </span>
           </div>
           <div class="foot_right">
             <van-button type="info" size="small">立即接单</van-button>
@@ -49,17 +70,17 @@ export default {
   created() {},
 
   methods: {
-    onLoad() {
+    async onLoad() {
+      const { data: res } = await this.$axios.Get(this.$api.express_list);
+      console.log(res);
       setTimeout(() => {
         if (this.refreshing) {
           this.list = [];
           this.refreshing = false;
         }
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1);
-        }
+        this.list = res;
         this.loading = false;
-        if (this.list.length >= 40) {
+        if (this.list.length >= res.length) {
           this.finished = true;
         }
         this.$emit('childListData', this.list);

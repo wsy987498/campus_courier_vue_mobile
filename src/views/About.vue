@@ -11,7 +11,7 @@
           />
         </div> -->
         <div class="top_one_right">
-          <div class="top_one_right_one">您好，1123213123！</div>
+          <div class="top_one_right_one">您好，{{ username }}！</div>
           <div class="top_one_right_two">
             <van-button type="info" size="small" @click="logout"
               >退出登录</van-button
@@ -86,6 +86,7 @@
 export default {
   data() {
     return {
+      username: sessionStorage.getItem('username'),
       currentRate: 0,
       gradientColor: {
         '0%': '#3fecff',
@@ -94,7 +95,16 @@ export default {
       islogin: true,
     };
   },
+  created() {
+    this.state();
+  },
   methods: {
+    state() {
+      const token = window.sessionStorage.getItem('token');
+      if (!token) {
+        this.islogin = false;
+      }
+    },
     gotologin() {
       this.$router.push('/login');
     },
@@ -106,6 +116,7 @@ export default {
         .then(() => {
           // on confirm
           this.islogin = false;
+          window.sessionStorage.removeItem('token');
         })
         .catch(() => {
           // on cancel

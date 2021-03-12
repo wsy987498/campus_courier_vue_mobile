@@ -35,7 +35,7 @@ export default {
         this.$api.login,
         this.loginForm,
       );
-      console.log(res);
+      // console.log(res);
 
       if (res.code == 202) {
         this.$toast({
@@ -48,7 +48,7 @@ export default {
         this.$toast.success(res.msg);
         window.sessionStorage.setItem('token', res.token);
         window.sessionStorage.setItem('username', res.username);
-        this.$router.push('/home');
+        this.$router.push('/about');
       }
     },
     async register() {
