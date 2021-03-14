@@ -1,60 +1,77 @@
 <template>
-  <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      @load="onLoad"
-    >
-      <div class="card_box" v-for="item in list" :key="item.express_id">
-        <!-- head -->
-        <div class="head">
-          <div class="head_left">
-            <span>
-              <!-- 中通快递 -->
-              {{ item.express_name }}
-            </span>
-            <span class="tag">
-              <van-tag round size="large" type="primary"
-                >赏金：{{ item.express_money }} 元</van-tag
-              >
-            </span>
+  <div>
+    <div class="select">
+      <van-dropdown-menu active-color="#1989fa">
+        <van-dropdown-item
+          v-model="initPageData.expressName"
+          :options="option"
+          @change="getExpressName"
+        />
+        <van-dropdown-item
+          v-model="initPageData.sort"
+          :options="option2"
+          @change="getSort"
+        />
+      </van-dropdown-menu>
+    </div>
+    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+      <van-list
+        :immediate-check="false"
+        v-model="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="onLoad"
+      >
+        <div class="card_box" v-for="item in list" :key="item.express_id">
+          <!-- head -->
+          <div class="head">
+            <div class="head_left">
+              <span>
+                <!-- 中通快递 -->
+                {{ item.express_name }}
+              </span>
+              <span class="tag">
+                <van-tag round size="large" type="primary"
+                  >赏金：{{ item.express_money }} 元</van-tag
+                >
+              </span>
+            </div>
+            <div class="head_right">
+              <span>
+                10分钟前
+              </span>
+            </div>
           </div>
-          <div class="head_right">
-            <span>
-              10分钟前
-            </span>
+          <!-- main -->
+          <div class="main">
+            <div class="one">
+              配送地址：
+              <!-- 北海校区东区2#E320 -->
+              {{ item.delivery_address }}
+            </div>
+            <div class="two">
+              期望送达时间：
+              <!-- 2021-2-28 15:00 -->
+              {{ item.forward_delivery_time }}
+            </div>
+          </div>
+          <!-- foot -->
+          <div class="foot">
+            <div class="foot_left">
+              <span>
+                快递类型：
+                <!-- 大包裹 -->
+                {{ item.express_type }}
+              </span>
+            </div>
+            <div class="foot_right">
+              <van-button type="info" size="small">立即接单</van-button>
+            </div>
           </div>
         </div>
-        <!-- main -->
-        <div class="main">
-          <div class="one">
-            配送地址：
-            <!-- 北海校区东区2#E320 -->
-            {{ item.delivery_address }}
-          </div>
-          <div class="two">
-            期望送达时间：
-            <!-- 2021-2-28 15:00 -->
-            {{ item.forward_delivery_time }}
-          </div>
-        </div>
-        <!-- foot -->
-        <div class="foot">
-          <div class="foot_left">
-            <span>
-              快递类型：
-              <!-- 大包裹 -->
-              {{ item.express_type }}
-            </span>
-          </div>
-          <div class="foot_right">
-            <van-button type="info" size="small">立即接单</van-button>
-          </div>
-        </div>
-      </div>
-    </van-list>
-  </van-pull-refresh>
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
@@ -65,41 +82,101 @@ export default {
       loading: false,
       finished: false,
       refreshing: false,
+      initPageData: {
+        page: 1,
+        pageSize: 5,
+        expressName: 'all',
+        sort: 'default',
+      },
+      total: 0,
+      filterData: {},
+
+      option: [
+        { text: '所有快递', value: 'all' },
+        { text: '中通快递', value: '中通快递' },
+        { text: '顺丰快递', value: '顺丰快递' },
+      ],
+      option2: [
+        { text: '默认排序', value: 'default' },
+        { text: '时间升序', value: 'asc' },
+        { text: '时间降序', value: 'desc' },
+      ],
     };
   },
-  created() {},
+  created() {
+    this.initData();
+    this.filterSelectOpt();
+  },
 
   methods: {
-    async onLoad() {
-      const { data: res } = await this.$axios.Get(this.$api.express_list);
-      console.log(res);
+    async initData() {
+      const { data: res } = await this.$axios.Post(
+        this.$api.express_list,
+        this.initPageData,
+      );
+      console.log(res.data);
       setTimeout(() => {
+        let rows = res.data;
+        this.loading = false;
+        this.total = res.data.total;
         if (this.refreshing) {
           this.list = [];
           this.refreshing = false;
         }
-        this.list = res;
-        this.loading = false;
-        if (this.list.length >= res.length) {
+        if (rows == null || rows.length === 0) {
+          // 加载结束
+          this.finished = true;
+          return;
+        }
+        this.list = this.list.concat(rows);
+        if (this.list.length >= this.total) {
           this.finished = true;
         }
         this.$emit('childListData', this.list);
-      }, 1000);
+      }, 1200);
+    },
+    async onLoad() {
+      this.initPageData.page++;
+      this.initData();
     },
     onRefresh() {
+      this.initPageData.page = 0;
       // 清空列表数据
       this.finished = false;
-
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
       this.onLoad();
+    },
+
+    getExpressName(value) {
+      // console.log(value);
+      this.list = [];
+      this.finished = false;
+      this.initPageData.page = 1;
+      this.initPageData.expressName = value;
+      this.initData();
+    },
+
+    getSort(value) {
+      // console.log(value);
+      this.list = [];
+      this.finished = false;
+      this.initPageData.page = 1;
+      this.initPageData.sort = value;
+      this.initData();
+    },
+    filterSelectOpt() {
+      console.log('selectfilter', this.initPageData);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.select{
+  
+}
 .card_box {
   border-radius: 10px;
   box-shadow: 1px 1px 5px #ebedf0;

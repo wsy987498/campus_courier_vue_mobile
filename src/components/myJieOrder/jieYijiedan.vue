@@ -57,7 +57,8 @@ export default {
           this.list = [];
           this.refreshing = false;
         }
-        for (let i = 0; i < 10; i++) {
+
+        for (let i = 0; i < 3; i++) {
           this.list.push(this.list.length + 1);
         }
         this.loading = false;

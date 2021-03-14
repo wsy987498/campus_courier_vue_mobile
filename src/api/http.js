@@ -1,14 +1,4 @@
 import axios from 'axios';
-import NProgress from 'nprogress'
-
-axios.interceptors.request.use(config => {
-  NProgress.start();
-  return config;
-})
-axios.interceptors.response.use(config => {
-  NProgress.done();
-  return config;
-})
 
 const apiUrl = 'http://localhost:3000'//本地
 

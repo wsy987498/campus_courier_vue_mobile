@@ -5,11 +5,12 @@
       <van-field
         readonly
         clickable
-        name="expressComName"
-        :value="formMsg.expressComName"
+        name="express_name"
+        :value="formMsg.express_name"
         label="快递公司："
         placeholder="选择快递公司"
         @click="ExpshowPicker = true"
+        :rules="[{ required: true, message: '请选择快递公司' }]"
       />
       <van-popup v-model="ExpshowPicker" position="bottom">
         <van-picker
@@ -23,11 +24,12 @@
       <van-field
         readonly
         clickable
-        name="expressType"
-        :value="formMsg.expressType"
+        name="express_type"
+        :value="formMsg.express_type"
         label="快递类型："
         placeholder="选择快递类型"
         @click="TypshowPicker = true"
+        :rules="[{ required: true, message: '请选择快递类型' }]"
       />
       <van-popup v-model="TypshowPicker" position="bottom">
         <van-picker
@@ -41,11 +43,12 @@
       <van-field
         readonly
         clickable
-        name="datetimePicker"
-        :value="formMsg.sendTime"
+        name="forward_delivery_time"
+        :value="formMsg.forward_delivery_time"
         label="送货日期"
         placeholder="选择时间"
         @click="SendshowPicker = true"
+        :rules="[{ required: true, message: '请选择时间' }]"
       />
       <van-popup v-model="SendshowPicker" position="bottom">
         <van-datetime-picker
@@ -59,17 +62,19 @@
       </van-popup>
       <!-- 收件人 -->
       <van-field
-        v-model="formMsg.recipients"
-        name="recipients"
+        v-model="formMsg.express_recipients"
+        name="express_recipients"
         label="收件人："
         placeholder="收件人"
+        :rules="[{ required: true, message: '请输入收件人' }]"
       />
       <!-- 取件地址 -->
       <van-field
-        v-model="formMsg.address"
-        name="address"
+        v-model="formMsg.delivery_address"
+        name="delivery_address"
         label="取件地址："
         placeholder="取件地址"
+        :rules="[{ required: true, message: '请输入取件地址' }]"
       />
       <!-- 收件号码 -->
       <van-field
@@ -77,24 +82,28 @@
         name="phone"
         label="收件号码："
         placeholder="收件号码"
+        :rules="[{ required: true, message: '请输入收件号码' }]"
       />
       <!-- 取件码 -->
       <van-field
-        v-model="formMsg.takeCode"
-        name="takeCode"
+        v-model="formMsg.pick_code"
+        name="pick_code"
         label="取件码："
         placeholder="取件码"
+        :rules="[{ required: true, message: '请输入取件码' }]"
       />
       <!-- 赏金 -->
       <van-field
-        v-model="formMsg.money"
-        name="money"
+        v-model="formMsg.express_money"
+        name="express_money"
         label="赏金："
         placeholder="赏金"
+        :rules="[{ required: true, message: '请输入赏金' }]"
       />
       <!-- 备注 -->
       <van-field
-        v-model="formMsg.message"
+        name="remarks"
+        v-model="formMsg.remarks"
         rows="2"
         autosize
         label="备注"
@@ -125,15 +134,15 @@ export default {
       TypshowPicker: false,
       SendshowPicker: false,
       formMsg: {
-        expressComName: '',
-        expressType: '',
-        sendTime: '',
-        recipients: '',
-        address: '',
+        express_name: '',
+        express_type: '',
+        forward_delivery_time: '',
+        express_recipients: '',
+        delivery_address: '',
         phone: '',
-        takeCode: '',
-        money: '',
-        message: '',
+        pick_code: '',
+        express_money: '',
+        remarks: '',
       },
     };
   },
@@ -144,20 +153,30 @@ export default {
         .confirm({
           title: '确认提交吗?',
         })
-        .then(() => {
+        .then(async () => {
           // on confirm
           console.log('submit', values);
+          const { data: res } = await this.$axios.Post(
+            this.$api.add_express,
+            values,
+          );
+          console.log(res);
+          if (res.code == 200) {
+            this.$router.push('/home');
+            this.$toast.success(res.msg);
+          }
         })
         .catch(() => {
           // on cancel
+          this.formMsg = {};
         });
     },
     ExponConfirm(value) {
-      this.formMsg.expressComName = value;
+      this.formMsg.express_name = value;
       this.ExpshowPicker = false;
     },
     TyponConfirm(value) {
-      this.formMsg.expressType = value;
+      this.formMsg.express_type = value;
       this.TypshowPicker = false;
     },
     TimeonConfirm(time) {
@@ -171,8 +190,9 @@ export default {
       hour = hour < 10 ? '0' + hour : hour;
 
       const filterTime = `${year}-${month}-${day}、 ${hour}点前送达`;
+      // const filterTime = `${year}-${month}-${day}`;
       // console.log(filterTime);
-      this.formMsg.sendTime = filterTime;
+      this.formMsg.forward_delivery_time = filterTime;
       this.SendshowPicker = false;
     },
   },

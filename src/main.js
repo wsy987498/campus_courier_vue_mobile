@@ -6,8 +6,6 @@ import './plugins/vant'
 import 'amfe-flexible/index.js'
 import './assets/css/global.css'
 
-//nprogress
-import 'nprogress/nprogress.css'
 // axios 
 import axios from "./api/http";
 // api
