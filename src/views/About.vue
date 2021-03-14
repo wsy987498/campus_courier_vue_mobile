@@ -115,8 +115,11 @@ export default {
         })
         .then(() => {
           // on confirm
-          this.islogin = false;
-          window.sessionStorage.removeItem('token');
+          this.$toast.success('退出成功');
+          setTimeout(() => {
+            this.islogin = false;
+            window.sessionStorage.removeItem('token');
+          }, 800);
         })
         .catch(() => {
           // on cancel

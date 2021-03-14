@@ -5,13 +5,14 @@ import store from './store'
 import './plugins/vant'
 import 'amfe-flexible/index.js'
 import './assets/css/global.css'
-
+import bus from './bus';
 // axios 
 import axios from "./api/http";
 // api
 import api from "./api/api";
 Vue.prototype.$axios = axios
 Vue.prototype.$api = api
+Vue.prototype.$bus = bus
 
 Vue.config.productionTip = false
 

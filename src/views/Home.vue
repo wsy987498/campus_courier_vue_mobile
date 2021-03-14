@@ -3,6 +3,7 @@
     <div class="top">
       <!-- 广告通知栏 -->
       <notice-bar :text="text" />
+      <selectItem />
     </div>
     <div class="main">
       <!-- 列表 -->
@@ -16,12 +17,13 @@
 
 <script>
 import noticeBar from '@/components/noticeBar/noticeBar';
-
+import selectItem from '@/components/selectItem/selectItem';
 import listItem from '@/components/listItem/listItem';
 import FloatingButton from '@/components/floatButton/FloatingButton';
 export default {
   name: 'Home',
-  components: { noticeBar, listItem, FloatingButton },
+  components: { noticeBar, listItem, selectItem, FloatingButton },
+  created() {},
   data() {
     return {
       text: '欢迎使用！',

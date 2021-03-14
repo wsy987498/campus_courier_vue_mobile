@@ -1,19 +1,18 @@
 <template>
   <div>
-    <div class="select">
-      <van-dropdown-menu active-color="#1989fa">
-        <van-dropdown-item
-          v-model="initPageData.expressName"
-          :options="option"
-          @change="getExpressName"
-        />
-        <van-dropdown-item
-          v-model="initPageData.sort"
-          :options="option2"
-          @change="getSort"
-        />
-      </van-dropdown-menu>
-    </div>
+    <!-- <van-dropdown-menu active-color="#1989fa">
+      <van-dropdown-item
+        v-model="initPageData.expressName"
+        :options="option"
+        @change="getExpressName"
+      />
+      <van-dropdown-item
+        v-model="initPageData.sort"
+        :options="option2"
+        @change="getSort"
+      />
+    </van-dropdown-menu> -->
+
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
         :immediate-check="false"
@@ -105,7 +104,16 @@ export default {
   },
   created() {
     this.initData();
-    this.filterSelectOpt();
+
+    this.$bus.$on('getParam', (param) => {
+      // console.log(param);
+      this.initPageData.expressName = param.expressName;
+      this.initPageData.sort = param.sort;
+      this.list = [];
+      this.finished = false;
+      this.initPageData.page = 1;
+      this.initData();
+    });
   },
 
   methods: {
@@ -114,7 +122,7 @@ export default {
         this.$api.express_list,
         this.initPageData,
       );
-      console.log(res.data);
+      // console.log(res.data);
       setTimeout(() => {
         let rows = res.data;
         this.loading = false;
@@ -148,35 +156,11 @@ export default {
       this.loading = true;
       this.onLoad();
     },
-
-    getExpressName(value) {
-      // console.log(value);
-      this.list = [];
-      this.finished = false;
-      this.initPageData.page = 1;
-      this.initPageData.expressName = value;
-      this.initData();
-    },
-
-    getSort(value) {
-      // console.log(value);
-      this.list = [];
-      this.finished = false;
-      this.initPageData.page = 1;
-      this.initPageData.sort = value;
-      this.initData();
-    },
-    filterSelectOpt() {
-      console.log('selectfilter', this.initPageData);
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.select{
-  
-}
 .card_box {
   border-radius: 10px;
   box-shadow: 1px 1px 5px #ebedf0;

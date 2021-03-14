@@ -34,7 +34,18 @@ export default {
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    getExpressName(value) {
+      // console.log(value);
+      this.selectData.expressName = value;
+      this.$bus.$emit('getParam', this.selectData);
+    },
+    getSort(value) {
+      // console.log(value);
+      this.selectData.sort = value;
+      this.$bus.$emit('getParam', this.selectData);
+    },
+  },
 };
 </script>
 
