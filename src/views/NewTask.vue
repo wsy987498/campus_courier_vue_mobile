@@ -128,7 +128,15 @@ export default {
       minDate: new Date(2020, 0, 1),
       maxDate: new Date(2025, 10, 1),
       currentDate: new Date(),
-      Expcolumns: ['中通快递', '顺丰快递', '天天快递'],
+      Expcolumns: [
+        '中通快递',
+        '顺丰快递',
+        '天天快递',
+        '申通快递',
+        '圆通快递',
+        'EMS邮政',
+        '百世快递',
+      ],
       Typcolumns: ['大型包裹', '中型包裹', '小型包裹'],
       ExpshowPicker: false,
       TypshowPicker: false,
@@ -189,7 +197,7 @@ export default {
       let hour = date.getHours();
       hour = hour < 10 ? '0' + hour : hour;
 
-      const filterTime = `${year}-${month}-${day}、 ${hour}点前送达`;
+      const filterTime = `${year}-${month}-${day}-${hour}(点)`;
       // const filterTime = `${year}-${month}-${day}`;
       // console.log(filterTime);
       this.formMsg.forward_delivery_time = filterTime;

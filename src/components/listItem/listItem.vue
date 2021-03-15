@@ -1,18 +1,5 @@
 <template>
   <div>
-    <!-- <van-dropdown-menu active-color="#1989fa">
-      <van-dropdown-item
-        v-model="initPageData.expressName"
-        :options="option"
-        @change="getExpressName"
-      />
-      <van-dropdown-item
-        v-model="initPageData.sort"
-        :options="option2"
-        @change="getSort"
-      />
-    </van-dropdown-menu> -->
-
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
         :immediate-check="false"
@@ -37,7 +24,8 @@
             </div>
             <div class="head_right">
               <span>
-                10分钟前
+                <!-- 10分钟前 -->
+                {{ item.create_time | timeFormat }}
               </span>
             </div>
           </div>
@@ -51,7 +39,7 @@
             <div class="two">
               期望送达时间：
               <!-- 2021-2-28 15:00 -->
-              {{ item.forward_delivery_time }}
+              {{ item.forward_delivery_time | DateFilter }}
             </div>
           </div>
           <!-- foot -->
@@ -116,6 +104,47 @@ export default {
     });
   },
 
+  filters: {
+    DateFilter(time) {
+      let date = new Date(time);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      month = month < 10 ? '0' + month : month;
+      let day = date.getDate();
+      day = day < 10 ? '0' + day : day;
+      let hour = date.getHours();
+      hour = hour < 10 ? '0' + hour : hour;
+      return `${year}-${month}-${day}__${hour}点前`;
+    },
+    timeFormat(time) {
+      var minute = 1000 * 60;
+      var hour = minute * 60;
+      var day = hour * 24;
+      var month = day * 30;
+
+      var dateTimeStamp = new Date(time);
+      var now = new Date().getTime();
+      var diffValue = now - dateTimeStamp;
+
+      var monthC = diffValue / month;
+      var weekC = diffValue / (7 * day);
+      var dayC = diffValue / day;
+      var hourC = diffValue / hour;
+      var minC = diffValue / minute;
+
+      if (monthC >= 1) {
+        return parseInt(monthC) + '个月前';
+      } else if (weekC >= 1) {
+        return parseInt(weekC) + '周前';
+      } else if (dayC >= 1) {
+        return parseInt(dayC) + '天前';
+      } else if (hourC >= 1) {
+        return parseInt(hourC) + '个小时前';
+      } else if (minC >= 1) {
+        return parseInt(minC) + '分钟前';
+      } else return '刚刚';
+    },
+  },
   methods: {
     async initData() {
       const { data: res } = await this.$axios.Post(
