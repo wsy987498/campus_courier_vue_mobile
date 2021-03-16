@@ -17,15 +17,15 @@
                 {{ item.express_name }}
               </span>
               <span class="tag">
-                <van-tag round size="large" type="primary"
-                  >赏金：{{ item.express_money }} 元</van-tag
+                <van-tag round size="large" type="success"
+                  >取件码：{{ item.pick_code }}</van-tag
                 >
               </span>
             </div>
             <div class="head_right">
               <span>
                 <!-- 10分钟前 -->
-                {{ item.create_time | timeFormat }}
+                收件人：{{ item.express_recipients }}
               </span>
             </div>
           </div>
@@ -52,7 +52,16 @@
               </span>
             </div>
             <div class="foot_right">
-              <van-button type="info" size="small">立即接单</van-button>
+              <van-button type="info" size="small" @click="isComplete(item)"
+                >已完成</van-button
+              >
+              <van-button
+                type="danger"
+                size="small"
+                style="margin-left:5px"
+                @click="delTask(item)"
+                >取消</van-button
+              >
             </div>
           </div>
         </div>
@@ -78,6 +87,7 @@ export default {
   },
   created() {
     this.initData();
+    this.$bus.$emit('changeState');
   },
   filters: {
     DateFilter(time) {
@@ -167,6 +177,60 @@ export default {
       this.loading = true;
       this.onLoad();
     },
+
+    // 已完成
+    isComplete(data) {
+      // console.log('已完成', data);
+      this.$dialog
+        .confirm({
+          title: '是否已完成?',
+        })
+        .then(async () => {
+          // console.log(data);
+          const { data: res } = await this.$axios.Post(
+            this.$api.addtoFinished,
+            data,
+          );
+          // console.log(res);
+          if (res.code == 200) {
+            this.$toast.success(res.msg);
+            setTimeout(() => {
+              this.initPageData.page = 1;
+              this.list = [];
+              this.initData();
+            }, 1000);
+          }
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+    delTask(data) {
+      // console.log('删除', data);
+      this.$dialog
+        .confirm({
+          title: '是否取消?',
+        })
+        .then(async () => {
+          // console.log(data);
+          const { data: res } = await this.$axios.Post(
+            this.$api.deltoJiedan,
+            data,
+          );
+          // console.log(res);
+          if (res.code == 200) {
+            this.$toast.success(res.msg);
+            setTimeout(() => {
+              this.initPageData.page = 1;
+              this.list = [];
+              this.initData();
+            }, 1000);
+          }
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
   },
 };
 </script>
@@ -190,13 +254,13 @@ export default {
       font-weight: 700;
       font-size: 16px;
       text-align: left;
-      flex: 1;
+      // flex: 1;
       .tag {
         margin-left: 8px;
       }
     }
     .head_right {
-      color: #ccc;
+      font-weight: bold;
       font-size: 12px;
       text-align: right;
       flex: 1;

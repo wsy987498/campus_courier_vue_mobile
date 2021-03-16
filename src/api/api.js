@@ -3,11 +3,15 @@ export default {
   register: "/mobile/register",
   express_list: '/mobile/express_list',
   isReceiving_list: '/mobile/isReceiving_list',
+  isFinished_list: '/mobile/isFinished_list',
   add_express: '/mobile/add_express',
   addtoReceiving: '/mobile/addtoReceiving',
+  addtoFinished: '/mobile/addtoFinished',
+  deltoJiedan: '/mobile/deltoJiedan',
 
 
-  getReceivingNum: '/mobile/getReceivingNum'
+  getReceivingNum: '/mobile/getReceivingNum',
+  getFinishedNum: '/mobile/getFinishedNum'
 
 
 

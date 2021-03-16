@@ -54,7 +54,7 @@ export default {
     this.$bus.$on('changeState', () => {
       let key = this.$route.fullPath;
       // console.log(key);
-      if (key == '/login') {
+      if (key == '/login' || '/jieyijiedan' || '/jieyiwancheng') {
         this.active = 1;
       }
     });

@@ -35,7 +35,7 @@
             <template>
               <div class="circle">
                 <div>接单总量</div>
-                <div>10</div>
+                <div>{{ myjeidanNum }}</div>
               </div>
             </template>
           </van-circle>
@@ -65,10 +65,13 @@
           <van-tabbar-item
             icon="wap-nav"
             @click="haveOrder"
-            :badge="ReceivingNum"
+            :badge="ReceivingNum ? ReceivingNum : ''"
             >已接单</van-tabbar-item
           >
-          <van-tabbar-item icon="wap-nav" @click="jiedanfinished" badge="3"
+          <van-tabbar-item
+            icon="wap-nav"
+            @click="jiedanfinished"
+            :badge="FinishedNum ? FinishedNum : ''"
             >已完成</van-tabbar-item
           ><van-tabbar-item></van-tabbar-item>
         </van-tabbar>
@@ -97,13 +100,19 @@ export default {
       },
       islogin: true,
       ReceivingNum: 0,
+      FinishedNum: 0,
     };
   },
   created() {
     this.state();
     this.getReceivingNum();
+    this.getFinishedNum();
   },
-  computed: {},
+  computed: {
+    myjeidanNum() {
+      return this.ReceivingNum + this.FinishedNum;
+    },
+  },
   methods: {
     state() {
       const token = window.sessionStorage.getItem('token');
@@ -151,9 +160,14 @@ export default {
     jiedanfinished() {
       this.$router.push('/jieyiwancheng');
     },
+
     async getReceivingNum() {
       const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);
       this.ReceivingNum = res.total;
+    },
+    async getFinishedNum() {
+      const { data: res } = await this.$axios.Get(this.$api.getFinishedNum);
+      this.FinishedNum = res.total;
     },
   },
 };
