@@ -52,7 +52,9 @@
               </span>
             </div>
             <div class="foot_right">
-              <van-button type="info" size="small">立即接单</van-button>
+              <van-button type="info" size="small" @click="getOrder(item)"
+                >立即接单</van-button
+              >
             </div>
           </div>
         </div>
@@ -101,6 +103,7 @@ export default {
       this.finished = false;
       this.initPageData.page = 1;
       this.initData();
+      this.$toast.clear();
     });
   },
 
@@ -151,6 +154,11 @@ export default {
         this.$api.express_list,
         this.initPageData,
       );
+      this.$toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+      });
       // console.log(res.data);
       setTimeout(() => {
         let rows = res.data;
@@ -170,7 +178,8 @@ export default {
           this.finished = true;
         }
         this.$emit('childListData', this.list);
-      }, 1200);
+        this.$toast.clear();
+      }, 1000);
     },
     async onLoad() {
       this.initPageData.page++;
@@ -184,6 +193,40 @@ export default {
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;
       this.onLoad();
+    },
+    getOrder(data) {
+      const token = window.sessionStorage.getItem('token');
+      if (token) {
+        this.$dialog
+          .confirm({
+            title: '确认接单吗?',
+          })
+          .then(async () => {
+            // on confirm
+            // console.log(data);
+            const { data: res } = await this.$axios.Post(
+              this.$api.addtoReceiving,
+              data,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.initPageData.page = 1;
+                this.list = [];
+                this.initData();
+              }, 1000);
+            }
+          })
+          .catch(() => {
+            // on cancel
+          });
+      } else {
+        this.$toast('请先登录！');
+        setTimeout(() => {
+          this.$router.push('/login');
+        }, 800);
+      }
     },
   },
 };

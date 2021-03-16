@@ -62,7 +62,10 @@
       <div class="foot_one">我的接单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="wap-nav" @click="haveOrder" badge="3"
+          <van-tabbar-item
+            icon="wap-nav"
+            @click="haveOrder"
+            :badge="ReceivingNum"
             >已接单</van-tabbar-item
           >
           <van-tabbar-item icon="wap-nav" @click="jiedanfinished" badge="3"
@@ -93,11 +96,14 @@ export default {
         '100%': '#6149f6',
       },
       islogin: true,
+      ReceivingNum: 0,
     };
   },
   created() {
     this.state();
+    this.getReceivingNum();
   },
+  computed: {},
   methods: {
     state() {
       const token = window.sessionStorage.getItem('token');
@@ -144,6 +150,10 @@ export default {
     //接单已完成
     jiedanfinished() {
       this.$router.push('/jieyiwancheng');
+    },
+    async getReceivingNum() {
+      const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);
+      this.ReceivingNum = res.total;
     },
   },
 };

@@ -2,31 +2,54 @@
   <div class="myHaveOrder">
     <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
       <van-list
+        :immediate-check="false"
         v-model="loading"
         :finished="finished"
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="card_box" v-for="item in list" :key="item">
+        <div class="card_box" v-for="item in list" :key="item.express_id">
           <!-- head -->
           <div class="head">
             <div class="head_left">
-              <span>中通快递</span>
+              <span>
+                <!-- 中通快递 -->
+                {{ item.express_name }}
+              </span>
               <span class="tag">
-                <van-tag round size="large" type="primary">赏金：2元</van-tag>
+                <van-tag round size="large" type="primary"
+                  >赏金：{{ item.express_money }} 元</van-tag
+                >
               </span>
             </div>
-            <div class="head_right"><span>10分钟前</span></div>
+            <div class="head_right">
+              <span>
+                <!-- 10分钟前 -->
+                {{ item.create_time | timeFormat }}
+              </span>
+            </div>
           </div>
           <!-- main -->
           <div class="main">
-            <div class="one">配送地址：北海校区东区2#E320</div>
-            <div class="two">期望送达时间：2021-2-28 15:00</div>
+            <div class="one">
+              配送地址：
+              <!-- 北海校区东区2#E320 -->
+              {{ item.delivery_address }}
+            </div>
+            <div class="two">
+              期望送达时间：
+              <!-- 2021-2-28 15:00 -->
+              {{ item.forward_delivery_time | DateFilter }}
+            </div>
           </div>
           <!-- foot -->
           <div class="foot">
             <div class="foot_left">
-              <span>快递类型：大包裹</span>
+              <span>
+                快递类型：
+                <!-- 大包裹 -->
+                {{ item.express_type }}
+              </span>
             </div>
             <div class="foot_right">
               <van-button type="info" size="small">立即接单</van-button>
@@ -46,32 +69,99 @@ export default {
       loading: false,
       finished: false,
       refreshing: false,
+      initPageData: {
+        page: 1,
+        pageSize: 5,
+      },
+      total: 0,
     };
   },
-  created() {},
+  created() {
+    this.initData();
+  },
+  filters: {
+    DateFilter(time) {
+      let date = new Date(time);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      month = month < 10 ? '0' + month : month;
+      let day = date.getDate();
+      day = day < 10 ? '0' + day : day;
+      let hour = date.getHours();
+      hour = hour < 10 ? '0' + hour : hour;
+      return `${year}-${month}-${day}__${hour}点前`;
+    },
+    timeFormat(time) {
+      var minute = 1000 * 60;
+      var hour = minute * 60;
+      var day = hour * 24;
+      var month = day * 30;
 
+      var dateTimeStamp = new Date(time);
+      var now = new Date().getTime();
+      var diffValue = now - dateTimeStamp;
+
+      var monthC = diffValue / month;
+      var weekC = diffValue / (7 * day);
+      var dayC = diffValue / day;
+      var hourC = diffValue / hour;
+      var minC = diffValue / minute;
+
+      if (monthC >= 1) {
+        return parseInt(monthC) + '个月前';
+      } else if (weekC >= 1) {
+        return parseInt(weekC) + '周前';
+      } else if (dayC >= 1) {
+        return parseInt(dayC) + '天前';
+      } else if (hourC >= 1) {
+        return parseInt(hourC) + '个小时前';
+      } else if (minC >= 1) {
+        return parseInt(minC) + '分钟前';
+      } else return '刚刚';
+    },
+  },
   methods: {
-    onLoad() {
+    async initData() {
+      const { data: res } = await this.$axios.Post(
+        this.$api.isReceiving_list,
+        this.initPageData,
+      );
+
+      this.$toast.loading({
+        message: '加载中...',
+        forbidClick: true,
+        loadingType: 'spinner',
+      });
+      // console.log(res.data);
       setTimeout(() => {
+        let rows = res.data;
+        this.loading = false;
+        this.total = res.data.total;
         if (this.refreshing) {
           this.list = [];
           this.refreshing = false;
         }
-
-        for (let i = 0; i < 3; i++) {
-          this.list.push(this.list.length + 1);
+        if (rows == null || rows.length === 0) {
+          // 加载结束
+          this.finished = true;
+          return;
         }
-        this.loading = false;
-        if (this.list.length >= 20) {
+        this.list = this.list.concat(rows);
+        if (this.list.length >= this.total) {
           this.finished = true;
         }
-        this.$emit('childListData', this.list);
+        // this.$bus.$emit('getReceivingListLen', this.list);
+        this.$toast.clear();
       }, 1000);
     },
+    async onLoad() {
+      this.initPageData.page++;
+      this.initData();
+    },
     onRefresh() {
+      this.initPageData.page = 0;
       // 清空列表数据
       this.finished = false;
-
       // 重新加载数据
       // 将 loading 设置为 true，表示处于加载状态
       this.loading = true;

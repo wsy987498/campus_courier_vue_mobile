@@ -136,6 +136,7 @@ export default {
         '圆通快递',
         'EMS邮政',
         '百世快递',
+        '韵达快递',
       ],
       Typcolumns: ['大型包裹', '中型包裹', '小型包裹'],
       ExpshowPicker: false,
@@ -163,7 +164,7 @@ export default {
         })
         .then(async () => {
           // on confirm
-          console.log('submit', values);
+          // console.log('submit', values);
           const { data: res } = await this.$axios.Post(
             this.$api.add_express,
             values,

@@ -22,7 +22,9 @@ export default {
       state: 1,
     };
   },
-  created() {},
+  created() {
+    this.$bus.$emit('changeState');
+  },
   computed: {
     isSignIn() {
       return this.state === 1;

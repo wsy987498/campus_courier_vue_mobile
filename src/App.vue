@@ -50,6 +50,15 @@ export default {
   data() {
     return { active: 0, isRouterAlive: true };
   },
+  created() {
+    this.$bus.$on('changeState', () => {
+      let key = this.$route.fullPath;
+      // console.log(key);
+      if (key == '/login') {
+        this.active = 1;
+      }
+    });
+  },
 
   methods: {
     reload() {

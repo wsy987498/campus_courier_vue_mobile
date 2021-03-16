@@ -25,6 +25,12 @@ export default {
         { text: '所有快递', value: 'all' },
         { text: '中通快递', value: '中通快递' },
         { text: '顺丰快递', value: '顺丰快递' },
+        { text: '天天快递', value: '天天快递' },
+        { text: '申通快递', value: '申通快递' },
+        { text: '圆通快递', value: '圆通快递' },
+        { text: 'EMS邮政', value: 'EMS邮政' },
+        { text: '百世快递', value: '百世快递' },
+        { text: '韵达快递', value: '韵达快递' },
       ],
       option2: [
         { text: '默认排序', value: 'default' },
