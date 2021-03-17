@@ -8,8 +8,7 @@ export default {
   addtoReceiving: '/mobile/addtoReceiving',
   addtoFinished: '/mobile/addtoFinished',
   deltoJiedan: '/mobile/deltoJiedan',
-
-
+  updatePassword: '/mobile/updatePassword',
   getReceivingNum: '/mobile/getReceivingNum',
   getFinishedNum: '/mobile/getFinishedNum'
 

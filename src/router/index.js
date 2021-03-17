@@ -59,6 +59,11 @@ const routes = [
     path: '/jieyiwancheng',
     name: 'jieyiwancheng',
     component: () => import('../components/myJieOrder/jieYiwancheng.vue')
+  },
+  {
+    path: '/updatePassword',
+    name: 'updatePassword',
+    component: () => import('../views/updatePassword.vue')
   }
 ]
 

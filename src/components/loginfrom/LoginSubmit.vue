@@ -1,10 +1,12 @@
 <template>
   <!-- 登录注册按钮 -->
-  <span class="login_button">
-    <input type="button" value="" />
-    <label @click="login">登 录</label>
-    <label @click="register">注 册</label>
-  </span>
+  <div>
+    <span class="login_button">
+      <input type="button" value="" />
+      <label @click="login">登 录</label>
+      <label @click="register">注 册</label>
+    </span>
+  </div>
 </template>
 <script>
 export default {
@@ -48,6 +50,7 @@ export default {
         this.$toast.success(res.msg);
         window.sessionStorage.setItem('token', res.token);
         window.sessionStorage.setItem('username', res.username);
+        window.sessionStorage.setItem('user_id', res.id);
         this.$router.push('/about');
       }
     },
@@ -77,6 +80,10 @@ export default {
 </script>
 
 <style>
+.forget {
+  text-align: right;
+  margin-top: 10px;
+}
 .login_button {
   position: relative;
   display: flex;

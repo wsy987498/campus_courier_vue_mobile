@@ -169,7 +169,7 @@ export default {
             this.$api.add_express,
             values,
           );
-          console.log(res);
+          // console.log(res);
           if (res.code == 200) {
             this.$router.push('/home');
             this.$toast.success(res.msg);

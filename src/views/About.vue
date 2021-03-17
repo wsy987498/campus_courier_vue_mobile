@@ -13,6 +13,13 @@
         <div class="top_one_right">
           <div class="top_one_right_one">您好，{{ username }}！</div>
           <div class="top_one_right_two">
+            <van-button
+              type="info"
+              size="small"
+              style="margin-right:5px"
+              @click="updatePassword"
+              >修改密码</van-button
+            >
             <van-button type="info" size="small" @click="logout"
               >退出登录</van-button
             >
@@ -101,6 +108,7 @@ export default {
       islogin: true,
       ReceivingNum: 0,
       FinishedNum: 0,
+      token: window.sessionStorage.getItem('token'),
     };
   },
   created() {
@@ -162,12 +170,21 @@ export default {
     },
 
     async getReceivingNum() {
-      const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);
-      this.ReceivingNum = res.total;
+      if (this.token) {
+        const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);
+        this.ReceivingNum = res.total;
+      }
     },
     async getFinishedNum() {
-      const { data: res } = await this.$axios.Get(this.$api.getFinishedNum);
-      this.FinishedNum = res.total;
+      if (this.token) {
+        const { data: res } = await this.$axios.Get(this.$api.getFinishedNum);
+        this.FinishedNum = res.total;
+      }
+    },
+    updatePassword() {
+      setTimeout(() => {
+        this.$router.push('/updatePassword');
+      }, 500);
     },
   },
 };
@@ -193,12 +210,16 @@ export default {
     flex-direction: column;
     // background: powderblue;
     .top_one {
+      box-shadow: 0.02667rem 0.02667rem 0.13333rem #ebedf0;
       // background: pink;
       flex-grow: 0.2;
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: row;
+      margin: 10px 20px 0px 20px;
+      border-radius: 15px;
+      background: white;
       .top_one_left {
         flex-grow: 0.5;
         background: white;
@@ -206,9 +227,9 @@ export default {
       .top_one_right {
         flex-grow: 1;
         .top_one_right_one {
-          color: white;
+          // color: white;
           font-size: 16px;
-          // background: wheat;
+
           height: 30px;
           text-align: left;
           padding-left: 20px;
@@ -221,12 +242,15 @@ export default {
       }
     }
     .top_two {
-      // background: greenyellow;
+      background: white;
+      margin: 10px 20px 10px 20px;
+      border-radius: 15px;
       flex-grow: 1;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      box-shadow: 0.02667rem 0.02667rem 0.13333rem #ebedf0;
       .top_two_left {
         flex-grow: 1;
         // background: #ccc;
@@ -235,7 +259,7 @@ export default {
           height: 100%;
           font-size: 17px;
           margin-top: 30px;
-          color: white;
+          // color: white;
         }
       }
       .top_two_right {
@@ -244,7 +268,7 @@ export default {
           height: 100%;
           font-size: 17px;
           margin-top: 30px;
-          color: white;
+          // color: white;
         }
       }
     }
