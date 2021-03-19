@@ -6,10 +6,20 @@
 
 <script>
 export default {
+  data() {
+    return { token: window.sessionStorage.getItem('token') };
+  },
   computed: {},
   methods: {
     toggleEditing() {
-      this.$router.push('/newTask');
+      if (!this.token) {
+        this.$toast('请先登录!');
+        setTimeout(() => {
+          this.$router.push('/login');
+        }, 800);
+      } else {
+        this.$router.push('/newTask');
+      }
     },
   },
 };

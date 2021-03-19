@@ -138,6 +138,7 @@ export default {
         message: '加载中...',
         forbidClick: true,
         loadingType: 'spinner',
+        duration: 800,
       });
       // console.log(res.data);
       setTimeout(() => {

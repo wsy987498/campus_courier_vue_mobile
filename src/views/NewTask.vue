@@ -78,6 +78,7 @@
       />
       <!-- 收件号码 -->
       <van-field
+        type="number"
         v-model="formMsg.phone"
         name="phone"
         label="收件号码："
@@ -94,6 +95,7 @@
       />
       <!-- 赏金 -->
       <van-field
+        type="number"
         v-model="formMsg.express_money"
         name="express_money"
         label="赏金："
