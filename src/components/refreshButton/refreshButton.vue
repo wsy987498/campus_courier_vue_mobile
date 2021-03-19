@@ -1,6 +1,6 @@
 <template>
   <transition name="grow">
-    <van-icon class="floating-button1" name="replay" @click="refreshBtn" />
+    <van-icon class="btn" name="replay" @click="refreshBtn" />
   </transition>
 </template>
 
@@ -18,11 +18,11 @@ export default {
 };
 </script>
 
-<style lang="scss">
-.floating-button1 {
+<style lang="scss" scoped>
+.btn {
   z-index: 9999;
   position: fixed;
-  right: 10px;
+  right: 8px;
   top: 82px;
   margin: 0;
   padding: 0;
@@ -31,7 +31,7 @@ export default {
   // border-radius: 44px;
   // width: 35px;
   // height: 35px;
-  // line-height: 30px;
+  // line-height: 35px;
   // color: white;
   // box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   // background: -webkit-gradient(
@@ -50,21 +50,7 @@ export default {
   // );
   transition: all 0.5s ease;
 }
-.floating-button::before,
-.floating-button::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: block;
-  width: 20px;
-  height: 2px;
-  background-color: white;
-  transform: translate(-50%, -50%);
-}
-.floating-button::after {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
+
 .floating-button__editing {
   right: 0;
   bottom: 0;
