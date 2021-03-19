@@ -151,6 +151,7 @@ export default {
         express_money: '',
         remarks: '',
         user_id: window.sessionStorage.getItem('user_id'),
+        istakeit: false,
       },
     };
   },

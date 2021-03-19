@@ -32,7 +32,7 @@
             <template>
               <div class="circle">
                 <div>发单总量</div>
-                <div>10</div>
+                <div>{{ myfadanNum }}</div>
               </div>
             </template>
           </van-circle>
@@ -59,10 +59,16 @@
             :badge="waitOrderNum ? waitOrderNum : ''"
             >待接单</van-tabbar-item
           >
-          <van-tabbar-item icon="wap-nav" @click="isDelivery" badge="3"
+          <van-tabbar-item
+            icon="wap-nav"
+            @click="isDelivery"
+            :badge="paisongNum ? paisongNum : ''"
             >派送中</van-tabbar-item
           >
-          <van-tabbar-item icon="wap-nav" @click="fadanfinished" badge="3"
+          <van-tabbar-item
+            icon="wap-nav"
+            @click="fadanfinished"
+            :badge="jiedanFinishedNum ? jiedanFinishedNum : ''"
             >已完成</van-tabbar-item
           >
         </van-tabbar>
@@ -112,6 +118,8 @@ export default {
       ReceivingNum: 0,
       FinishedNum: 0,
       waitOrderNum: 0,
+      paisongNum: 0,
+      jiedanFinishedNum: 0,
       token: window.sessionStorage.getItem('token'),
       user_id: {
         user_id: window.sessionStorage.getItem('user_id'),
@@ -123,10 +131,15 @@ export default {
     this.getWaitOrderNum();
     this.getReceivingNum();
     this.getFinishedNum();
+    this.gethavetoTakeNum();
+    this.getfadanFinishedNum();
   },
   computed: {
     myjeidanNum() {
       return this.ReceivingNum + this.FinishedNum;
+    },
+    myfadanNum() {
+      return this.waitOrderNum + this.paisongNum + this.jiedanFinishedNum;
     },
   },
   methods: {
@@ -177,7 +190,7 @@ export default {
       this.$router.push('/jieyiwancheng');
     },
 
-    //我的发单
+    //我的发单 待接单 num
     async getWaitOrderNum() {
       if (this.token) {
         const { data: res } = await this.$axios.Post(
@@ -187,17 +200,44 @@ export default {
         this.waitOrderNum = res.total;
       }
     },
+    // 我的发单 派送中 num
+    async gethavetoTakeNum() {
+      if (this.token) {
+        const { data: res } = await this.$axios.Post(
+          this.$api.gethavetoTakeNum,
+          this.user_id,
+        );
+        this.paisongNum = res.total;
+      }
+    },
+    // 我的发单 已完成 num
+    async getfadanFinishedNum() {
+      if (this.token) {
+        const { data: res } = await this.$axios.Post(
+          this.$api.getfadanFinishedNum,
+          this.user_id,
+        );
+        this.jiedanFinishedNum = res.total;
+      }
+    },
 
-    // 我的接单
+    // 我的接单 已接单 num
     async getReceivingNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);
+        const { data: res } = await this.$axios.Post(
+          this.$api.getReceivingNum,
+          this.user_id,
+        );
         this.ReceivingNum = res.total;
       }
     },
+    // 我的接单 已完成 num
     async getFinishedNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Get(this.$api.getFinishedNum);
+        const { data: res } = await this.$axios.Post(
+          this.$api.getFinishedNum,
+          this.user_id,
+        );
         this.FinishedNum = res.total;
       }
     },

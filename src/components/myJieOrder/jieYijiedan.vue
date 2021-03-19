@@ -56,7 +56,19 @@
               </span>
             </div>
             <div class="foot_right">
-              <van-button type="info" size="small" @click="isComplete(item)"
+              <van-button
+                type="primary"
+                size="small"
+                @click="isTakeit(item)"
+                v-if="item.istakeit == 'false'"
+                >已取件</van-button
+              >
+              <van-button
+                type="info"
+                size="small"
+                style="margin-left:5px"
+                @click="isComplete(item)"
+                v-if="item.istakeit == 'true'"
                 >完成</van-button
               >
               <van-button
@@ -64,6 +76,7 @@
                 size="small"
                 style="margin-left:5px"
                 @click="delTask(item)"
+                v-if="item.istakeit == 'false'"
                 >取消</van-button
               >
             </div>
@@ -86,6 +99,7 @@ export default {
       initPageData: {
         page: 1,
         pageSize: 5,
+        user_id: window.sessionStorage.getItem('user_id'),
       },
       total: 0,
     };
@@ -214,12 +228,39 @@ export default {
       // console.log('删除', data);
       this.$dialog
         .confirm({
-          title: '是否取消?',
+          title: '是否取消此单?',
         })
         .then(async () => {
           // console.log(data);
           const { data: res } = await this.$axios.Post(
             this.$api.deltoJiedan,
+            data,
+          );
+          // console.log(res);
+          if (res.code == 200) {
+            this.$toast.success(res.msg);
+            setTimeout(() => {
+              this.initPageData.page = 1;
+              this.list = [];
+              this.initData();
+            }, 1000);
+          }
+        })
+        .catch(() => {
+          // on cancel
+        });
+    },
+    isTakeit(data) {
+      // console.log(data);
+      this.$dialog
+        .confirm({
+          title: '是否已取件?',
+        })
+        .then(async () => {
+          // console.log(data);
+          data.istakeit = true;
+          const { data: res } = await this.$axios.Post(
+            this.$api.havetoTake_list,
             data,
           );
           // console.log(res);

@@ -64,6 +64,7 @@
         </div>
       </van-list>
     </van-pull-refresh>
+    <van-empty v-else description="暂无数据" />
   </div>
 </template>
 
@@ -224,7 +225,7 @@ export default {
       font-weight: 700;
       font-size: 16px;
       text-align: left;
-      flex: 1;
+      // flex: 1;
       .tag {
         margin-left: 8px;
       }
