@@ -111,6 +111,13 @@ export default {
       this.initData();
       this.$toast.clear();
     });
+
+    this.$bus.$on('refreshData', () => {
+      this.list = [];
+      this.finished = false;
+      this.initPageData.page = 1;
+      this.initData();
+    });
   },
 
   filters: {

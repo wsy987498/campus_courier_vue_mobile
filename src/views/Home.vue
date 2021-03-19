@@ -8,10 +8,10 @@
     <div class="main">
       <!-- 列表 -->
       <list-item @childListData="getchildListData($event)" />
-
     </div>
     <!-- 发布消息 -->
     <FloatingButton />
+    <RefreshButton />
   </div>
 </template>
 
@@ -20,9 +20,17 @@ import noticeBar from '@/components/noticeBar/noticeBar';
 import selectItem from '@/components/selectItem/selectItem';
 import listItem from '@/components/listItem/listItem';
 import FloatingButton from '@/components/floatButton/FloatingButton';
+import RefreshButton from '@/components/refreshButton/refreshButton';
+
 export default {
   name: 'Home',
-  components: { noticeBar, listItem, selectItem, FloatingButton },
+  components: {
+    noticeBar,
+    listItem,
+    selectItem,
+    FloatingButton,
+    RefreshButton,
+  },
   created() {},
   data() {
     return {
@@ -34,6 +42,9 @@ export default {
     getchildListData(data) {
       this.childListData = data;
       // console.log(this.childListData.length);
+    },
+    refreshBtn() {
+      console.log('shuaxin');
     },
   },
 };

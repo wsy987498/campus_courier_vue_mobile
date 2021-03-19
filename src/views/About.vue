@@ -93,6 +93,7 @@
         </van-tabbar>
       </div>
     </div>
+    <myrefreshBtn />
   </div>
 
   <div v-else>
@@ -105,7 +106,9 @@
 </template>
 
 <script>
+import myrefreshBtn from '@/components/refreshButton/myrefreshBtn';
 export default {
+  components: { myrefreshBtn },
   data() {
     return {
       username: sessionStorage.getItem('username'),
@@ -133,6 +136,16 @@ export default {
     this.getFinishedNum();
     this.gethavetoTakeNum();
     this.getfadanFinishedNum();
+    this.$bus.$on('getNum', () => {
+      this.getWaitOrderNum();
+      this.getReceivingNum();
+      this.getFinishedNum();
+      this.gethavetoTakeNum();
+      this.getfadanFinishedNum();
+      setTimeout(() => {
+        this.$toast('刷新成功');
+      }, 500);
+    });
   },
   computed: {
     myjeidanNum() {

@@ -22,7 +22,8 @@ import {
   NavBar,
   Picker,
   Popup,
-  DatetimePicker
+  DatetimePicker,
+  Icon
 } from 'vant';
 
 Vue.use(Button)
@@ -48,4 +49,5 @@ Vue.use(Button)
   .use(Picker)
   .use(Popup)
   .use(DatetimePicker)
+  .use(Icon)
 
