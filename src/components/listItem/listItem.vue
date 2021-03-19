@@ -1,6 +1,10 @@
 <template>
   <div>
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="onRefresh"
+      v-if="this.list.length != 0"
+    >
       <van-list
         :immediate-check="false"
         v-model="loading"
@@ -60,6 +64,7 @@
         </div>
       </van-list>
     </van-pull-refresh>
+    <van-empty description="暂无数据" v-else />
   </div>
 </template>
 
@@ -76,6 +81,7 @@ export default {
         pageSize: 5,
         expressName: 'all',
         sort: 'default',
+        user_id: window.sessionStorage.getItem('user_id'),
       },
       total: 0,
       filterData: {},
@@ -251,7 +257,7 @@ export default {
       font-weight: 700;
       font-size: 16px;
       text-align: left;
-      flex: 1;
+      // flex: 1;
       .tag {
         margin-left: 8px;
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="newTaskBox">
-    <van-form @submit="onSubmit" class="subForm">
+    <van-form class="subForm">
       <!-- 快递公司 -->
       <van-field
         readonly
@@ -113,9 +113,7 @@
         show-word-limit
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit"
-          >提交</van-button
-        >
+        <van-button round block type="info" @click="tijiao">提交</van-button>
       </div>
     </van-form>
   </div>
@@ -152,22 +150,24 @@ export default {
         pick_code: '',
         express_money: '',
         remarks: '',
+        user_id: window.sessionStorage.getItem('user_id'),
       },
     };
   },
+
   methods: {
     // form submit
-    onSubmit(values) {
+    tijiao() {
       this.$dialog
         .confirm({
           title: '确认提交吗?',
         })
         .then(async () => {
+          // console.log(this.formMsg);
           // on confirm
-          // console.log('submit', values);
           const { data: res } = await this.$axios.Post(
             this.$api.add_express,
-            values,
+            this.formMsg,
           );
           // console.log(res);
           if (res.code == 200) {

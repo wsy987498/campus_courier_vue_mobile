@@ -1,6 +1,10 @@
 <template>
   <div class="myHaveOrder">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="onRefresh"
+      v-if="this.list.length != 0"
+    >
       <van-list
         :immediate-check="false"
         v-model="loading"
@@ -53,7 +57,7 @@
             </div>
             <div class="foot_right">
               <van-button type="info" size="small" @click="isComplete(item)"
-                >已完成</van-button
+                >完成</van-button
               >
               <van-button
                 type="danger"
@@ -67,6 +71,7 @@
         </div>
       </van-list>
     </van-pull-refresh>
+    <van-empty v-else description="暂无数据" />
   </div>
 </template>
 
@@ -178,7 +183,7 @@ export default {
       this.onLoad();
     },
 
-    // 已完成
+    // 完成
     isComplete(data) {
       // console.log('已完成', data);
       this.$dialog

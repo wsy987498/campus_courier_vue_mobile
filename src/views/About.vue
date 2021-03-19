@@ -53,7 +53,10 @@
       <div class="foot_one">我的发单</div>
       <div class="foot_two">
         <van-tabbar class="tab">
-          <van-tabbar-item icon="wap-nav" @click="waitOrder" badge=""
+          <van-tabbar-item
+            icon="wap-nav"
+            @click="waitOrder"
+            :badge="waitOrderNum ? waitOrderNum : ''"
             >待接单</van-tabbar-item
           >
           <van-tabbar-item icon="wap-nav" @click="isDelivery" badge="3"
@@ -108,11 +111,16 @@ export default {
       islogin: true,
       ReceivingNum: 0,
       FinishedNum: 0,
+      waitOrderNum: 0,
       token: window.sessionStorage.getItem('token'),
+      user_id: {
+        user_id: window.sessionStorage.getItem('user_id'),
+      },
     };
   },
   created() {
     this.state();
+    this.getWaitOrderNum();
     this.getReceivingNum();
     this.getFinishedNum();
   },
@@ -169,6 +177,18 @@ export default {
       this.$router.push('/jieyiwancheng');
     },
 
+    //我的发单
+    async getWaitOrderNum() {
+      if (this.token) {
+        const { data: res } = await this.$axios.Post(
+          this.$api.getWaitOrderNum,
+          this.user_id,
+        );
+        this.waitOrderNum = res.total;
+      }
+    },
+
+    // 我的接单
     async getReceivingNum() {
       if (this.token) {
         const { data: res } = await this.$axios.Get(this.$api.getReceivingNum);

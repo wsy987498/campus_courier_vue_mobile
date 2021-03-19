@@ -8,7 +8,7 @@
     <div class="main">
       <!-- 列表 -->
       <list-item @childListData="getchildListData($event)" />
-      <van-empty description="暂无数据" v-if="this.childListData == 0" />
+
     </div>
     <!-- 发布消息 -->
     <FloatingButton />

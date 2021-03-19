@@ -1,6 +1,10 @@
 <template>
   <div class="myHaveOrderFinished">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="onRefresh"
+      v-if="this.list.length != 0"
+    >
       <van-list
         :immediate-check="false"
         v-model="loading"
@@ -52,12 +56,13 @@
               </span>
             </div>
             <div class="foot_right">
-              <van-button type="info" size="small">立即接单</van-button>
+              <van-button type="info" size="small">查看详情</van-button>
             </div>
           </div>
         </div>
       </van-list>
     </van-pull-refresh>
+    <van-empty v-else description="暂无数据" />
   </div>
 </template>
 
@@ -72,6 +77,7 @@ export default {
       initPageData: {
         page: 1,
         pageSize: 5,
+        user_id: window.sessionStorage.getItem('user_id'),
       },
       total: 0,
     };
