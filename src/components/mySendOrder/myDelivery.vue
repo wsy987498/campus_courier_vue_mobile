@@ -66,8 +66,8 @@
         position="bottom"
         :style="{ height: '28%' }"
       >
-        <van-steps direction="vertical" :active="1">
-          <span class="step_express_name">{{ step_express_name }}</span>
+        <van-steps direction="vertical" :active="0">
+          <div class="step_express_name">{{ step_express_name }}</div>
           <van-step>
             <h3>【快递】已取件</h3>
             <p>{{ step_create_time | stepDateFilter }}</p>
@@ -214,14 +214,10 @@ export default {
     },
 
     detail(data) {
-      console.log('detail', data);
-      this.state = true;
+      // console.log('detail', data);
       this.step_express_name = data.express_name;
       this.step_create_time = data.create_time;
       this.show = true;
-    },
-    detail_boxclick() {
-      this.state = !this.state;
     },
   },
 };
@@ -290,6 +286,8 @@ export default {
 .step_express_name {
   font-size: 16px;
   font-weight: bold;
+  text-align: left;
+  margin-top: 10px;
 }
 /deep/.van-step--vertical {
   text-align: left;
