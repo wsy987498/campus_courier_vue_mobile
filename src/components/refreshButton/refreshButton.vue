@@ -28,19 +28,12 @@ export default {
   padding: 0;
   border: none;
   outline: none;
-  // border-radius: 44px;
+  // border-radius: 35px;
   // width: 35px;
   // height: 35px;
-  // line-height: 35px;
+  // line-height: 34px;
   // color: white;
-  // box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  // background: -webkit-gradient(
-  //   linear,
-  //   0% 100%,
-  //   100% 0%,
-  //   color-stop(0.3, rgb(255, 98, 98)),
-  //   to(rgb(255, 169, 71))
-  // );
+
   // background-image: -webkit-gradient(
   //   linear,
   //   0% 100%,

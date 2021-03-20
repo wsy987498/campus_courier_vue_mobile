@@ -31,9 +31,9 @@ export default {
   border-radius: 44px;
   width: 35px;
   height: 35px;
-  line-height: 35px;
+  line-height: 33px;
   color: white;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
   // background: -webkit-gradient(
   //   linear,
   //   0% 100%,

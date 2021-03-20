@@ -47,6 +47,7 @@
             </div>
           </div>
           <!-- foot -->
+          <div class="remarks">备注：{{ item.remarks }}</div>
           <div class="foot">
             <div class="foot_left">
               <span>
@@ -55,6 +56,7 @@
                 {{ item.express_type }}
               </span>
             </div>
+
             <div class="foot_right">
               <van-button
                 type="primary"
@@ -118,7 +120,7 @@ export default {
       day = day < 10 ? '0' + day : day;
       let hour = date.getHours();
       hour = hour < 10 ? '0' + hour : hour;
-      return `${year}-${month}-${day}__${hour}点前`;
+      return `${year}-${month}-${day} （${hour}点前）`;
     },
     timeFormat(time) {
       var minute = 1000 * 60;
@@ -260,6 +262,7 @@ export default {
         .then(async () => {
           // console.log(data);
           data.istakeit = true;
+          data.qujianren = window.sessionStorage.getItem('username');
           const { data: res } = await this.$axios.Post(
             this.$api.havetoTake_list,
             data,
@@ -341,5 +344,9 @@ export default {
       flex: 1;
     }
   }
+}
+.remarks {
+  font-size: 13px;
+  text-align: left;
 }
 </style>

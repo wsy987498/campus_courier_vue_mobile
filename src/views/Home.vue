@@ -43,9 +43,6 @@ export default {
       this.childListData = data;
       // console.log(this.childListData.length);
     },
-    refreshBtn() {
-      console.log('shuaxin');
-    },
   },
 };
 </script>

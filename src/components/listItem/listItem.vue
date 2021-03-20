@@ -57,7 +57,7 @@
             </div>
             <div class="foot_right">
               <van-button type="info" size="small" @click="getOrder(item)"
-                >立即接单</van-button
+                >点击代领</van-button
               >
             </div>
           </div>
@@ -130,7 +130,7 @@ export default {
       day = day < 10 ? '0' + day : day;
       let hour = date.getHours();
       hour = hour < 10 ? '0' + hour : hour;
-      return `${year}-${month}-${day}__${hour}点前`;
+      return `${year}-${month}-${day} (${hour}点前)`;
     },
     timeFormat(time) {
       var minute = 1000 * 60;
@@ -213,7 +213,7 @@ export default {
       if (token) {
         this.$dialog
           .confirm({
-            title: '确认接单吗?',
+            title: '确认代领吗?',
           })
           .then(async () => {
             // on confirm

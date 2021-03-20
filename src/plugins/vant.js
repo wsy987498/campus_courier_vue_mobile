@@ -23,7 +23,12 @@ import {
   Picker,
   Popup,
   DatetimePicker,
-  Icon
+  Icon,
+  Collapse,
+  CollapseItem,
+  Step,
+  Steps,
+
 } from 'vant';
 
 Vue.use(Button)
@@ -50,4 +55,9 @@ Vue.use(Button)
   .use(Popup)
   .use(DatetimePicker)
   .use(Icon)
+  .use(Collapse)
+  .use(CollapseItem)
+  .use(Step)
+  .use(Steps)
+
 

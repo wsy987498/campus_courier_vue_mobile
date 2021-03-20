@@ -17,51 +17,71 @@
           <div class="head">
             <div class="head_left">
               <span>
-                <!-- 中通快递 -->
                 {{ item.express_name }}
               </span>
-              <span class="tag">
+              <!-- <span class="tag">
                 <van-tag round size="large" type="success"
                   >取件码：{{ item.pick_code }}</van-tag
                 >
-              </span>
+              </span> -->
             </div>
             <div class="head_right">
-              <span>
-                <!-- 10分钟前 -->
-                收件人：{{ item.express_recipients }}
-              </span>
+              <span> 收件人：{{ item.express_recipients }} </span>
             </div>
           </div>
           <!-- main -->
           <div class="main">
-            <div class="one">
+            <!-- <div class="one">
               配送地址：
-              <!-- 北海校区东区2#E320 -->
               {{ item.delivery_address }}
-            </div>
+            </div> -->
             <div class="two">
               期望送达时间：
-              <!-- 2021-2-28 15:00 -->
               {{ item.forward_delivery_time | DateFilter }}
             </div>
           </div>
           <!-- foot -->
           <div class="foot">
             <div class="foot_left">
-              <span>
+              <!-- <span>
                 快递类型：
-                <!-- 大包裹 -->
                 {{ item.express_type }}
+              </span> -->
+              <span>
+                取件人：
+                <span style="font-weight:bold"> {{ item.qujianren }}</span>
               </span>
             </div>
             <div class="foot_right">
-              <van-button type="info" size="small">查看订单</van-button>
+              <van-button type="info" size="small" @click="detail(item)"
+                >查看详情</van-button
+              >
             </div>
           </div>
         </div>
       </van-list>
+      <van-popup
+        v-model="show"
+        closeable
+        position="bottom"
+        :style="{ height: '28%' }"
+      >
+        <van-steps direction="vertical" :active="1">
+          <span class="step_express_name">{{ step_express_name }}</span>
+          <van-step>
+            <h3>【快递】已取件</h3>
+            <p>{{ step_create_time | stepDateFilter }}</p>
+          </van-step>
+          <van-step>
+            <h3>【快递】派送中</h3>
+            <p>
+              派送中......
+            </p>
+          </van-step>
+        </van-steps>
+      </van-popup>
     </van-pull-refresh>
+
     <van-empty v-else description="暂无数据" />
   </div>
 </template>
@@ -80,6 +100,10 @@ export default {
         user_id: window.sessionStorage.getItem('user_id'),
       },
       total: 0,
+      state: false,
+      step_express_name: '',
+      step_create_time: '',
+      show: false,
     };
   },
   created() {
@@ -96,7 +120,20 @@ export default {
       day = day < 10 ? '0' + day : day;
       let hour = date.getHours();
       hour = hour < 10 ? '0' + hour : hour;
-      return `${year}-${month}-${day}__${hour}点前`;
+      return `${year}-${month}-${day} （${hour}点前）`;
+    },
+    stepDateFilter(time) {
+      let date = new Date(time);
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      month = month < 10 ? '0' + month : month;
+      let day = date.getDate();
+      day = day < 10 ? '0' + day : day;
+      let hour = date.getHours();
+      hour = hour < 10 ? '0' + hour : hour;
+      let minutes = date.getMinutes();
+      minutes = minutes < 10 ? '0' + minutes : minutes;
+      return `${year}-${month}-${day}  ${hour}:${minutes}`;
     },
     timeFormat(time) {
       var minute = 1000 * 60;
@@ -175,6 +212,17 @@ export default {
       this.loading = true;
       this.onLoad();
     },
+
+    detail(data) {
+      console.log('detail', data);
+      this.state = true;
+      this.step_express_name = data.express_name;
+      this.step_create_time = data.create_time;
+      this.show = true;
+    },
+    detail_boxclick() {
+      this.state = !this.state;
+    },
   },
 };
 </script>
@@ -238,5 +286,25 @@ export default {
       flex: 1;
     }
   }
+}
+.step_express_name {
+  font-size: 16px;
+  font-weight: bold;
+}
+/deep/.van-step--vertical {
+  text-align: left;
+  padding: 0;
+}
+/deep/.van-step__circle {
+  width: 10px;
+  height: 10px;
+}
+/deep/.van-step__line {
+  width: 2px;
+  left: -16px;
+  top: 24px;
+}
+/deep/.van-step__circle-container {
+  font-size: 18px;
 }
 </style>

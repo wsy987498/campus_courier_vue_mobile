@@ -136,6 +136,7 @@ export default {
     this.getFinishedNum();
     this.gethavetoTakeNum();
     this.getfadanFinishedNum();
+
     this.$bus.$on('getNum', () => {
       this.getWaitOrderNum();
       this.getReceivingNum();
@@ -147,6 +148,7 @@ export default {
       }, 500);
     });
   },
+
   computed: {
     myjeidanNum() {
       return this.ReceivingNum + this.FinishedNum;
