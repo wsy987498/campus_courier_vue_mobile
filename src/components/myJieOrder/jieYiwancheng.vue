@@ -21,39 +21,32 @@
                 {{ item.express_name }}
               </span>
               <span class="tag">
-                <van-tag round size="large" type="success"
-                  >取件码：{{ item.pick_code }}</van-tag
-                >
+                <van-tag round size="large" type="success">{{
+                  item.istakeit ? '已收件' : ''
+                }}</van-tag>
               </span>
             </div>
             <div class="head_right">
               <span>
                 <!-- 10分钟前 -->
-                收件人：{{ item.express_recipients }}
               </span>
             </div>
           </div>
           <!-- main -->
           <div class="main">
             <div class="one">
-              配送地址：
-              <!-- 北海校区东区2#E320 -->
+              收件地址：
               {{ item.delivery_address }}
             </div>
             <div class="two">
-              期望送达时间：
-              <!-- 2021-2-28 15:00 -->
-              {{ item.forward_delivery_time | DateFilter }}
+              联系方式：
+              {{ item.phone }}
             </div>
           </div>
           <!-- foot -->
           <div class="foot">
             <div class="foot_left">
-              <span>
-                快递类型：
-                <!-- 大包裹 -->
-                {{ item.express_type }}
-              </span>
+              <span> 快递类型：{{ item.express_type }} </span>
             </div>
             <div class="foot_right">
               <van-button type="info" size="small" @click="detail(item)"
@@ -73,7 +66,7 @@
           <div class="step_express_name">{{ step_express_name }}</div>
           <van-step>
             <h3>【快递】派送中</h3>
-            <p>123</p>
+            <p>{{ step_delivery_time | stepDateFilter }}</p>
           </van-step>
           <van-step>
             <h3>【快递】已完成</h3>
@@ -102,6 +95,7 @@ export default {
       total: 0,
       step_express_name: '',
       step_finish_time: '',
+      step_delivery_time: '',
       show: false,
     };
   },
@@ -211,8 +205,17 @@ export default {
       this.loading = true;
       this.onLoad();
     },
-    detail(data) {
+    async detail(data) {
       // console.log('detail', data);
+      const { data: res } = await this.$axios.Post(
+        this.$api.getdeliverytime,
+        data,
+      );
+      if (res.code == 200) {
+        this.step_delivery_time = res.data[0].create_time;
+      } else {
+        this.step_delivery_time = '';
+      }
       this.step_express_name = data.express_name;
       this.step_finish_time = data.create_time;
       this.show = true;

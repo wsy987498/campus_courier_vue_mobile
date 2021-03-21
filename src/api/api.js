@@ -41,6 +41,9 @@ export default {
   //
   deltoJiedan: '/mobile/deltoJiedan',
 
+  // 获取派送时间
+  getdeliverytime: '/mobile/getdeliverytime',
+
 
 
 
