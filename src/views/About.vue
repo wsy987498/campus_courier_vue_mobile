@@ -54,19 +54,19 @@
       <div class="foot_two">
         <van-tabbar class="tab">
           <van-tabbar-item
-            icon="wap-nav"
+            :icon="waitorder"
             @click="waitOrder"
             :badge="waitOrderNum ? waitOrderNum : ''"
             >待接单</van-tabbar-item
           >
           <van-tabbar-item
-            icon="wap-nav"
+            :icon="delivery"
             @click="isDelivery"
             :badge="paisongNum ? paisongNum : ''"
             >派送中</van-tabbar-item
           >
           <van-tabbar-item
-            icon="wap-nav"
+            :icon="finish"
             @click="fadanfinished"
             :badge="jiedanFinishedNum ? jiedanFinishedNum : ''"
             >已完成</van-tabbar-item
@@ -79,13 +79,13 @@
       <div class="foot_two">
         <van-tabbar class="tab">
           <van-tabbar-item
-            icon="wap-nav"
+            :icon="receiving"
             @click="haveOrder"
             :badge="ReceivingNum ? ReceivingNum : ''"
             >已接单</van-tabbar-item
           >
           <van-tabbar-item
-            icon="wap-nav"
+            :icon="finish"
             @click="jiedanfinished"
             :badge="FinishedNum ? FinishedNum : ''"
             >已完成</van-tabbar-item
@@ -127,6 +127,10 @@ export default {
       user_id: {
         user_id: window.sessionStorage.getItem('user_id'),
       },
+      finish: require('../assets/image/finish.png'),
+      delivery: require('../assets/image/delivery.png'),
+      waitorder: require('../assets/image/waitorder.png'),
+      receiving: require('../assets/image/receiving.png'),
     };
   },
   created() {

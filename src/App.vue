@@ -7,7 +7,7 @@
           this.$route.fullPath == '/home' || this.$route.fullPath == '/about'
         "
       >
-        <div class="top">校园快递</div>
+        <div class="top">校园快递代取平台</div>
       </div>
       <van-nav-bar
         :title="navTitle()"
