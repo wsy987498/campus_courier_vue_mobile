@@ -115,7 +115,9 @@
         show-word-limit
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" @click="tijiao">提交</van-button>
+        <van-button round block type="info" @click="update"
+          >确认修改</van-button
+        >
       </div>
     </van-form>
   </div>
@@ -157,25 +159,31 @@ export default {
       },
     };
   },
-
+  created() {
+    // console.log();
+    this.formMsg = JSON.parse(window.sessionStorage.getItem('editData'));
+    this.TimeonConfirm(this.formMsg.forward_delivery_time);
+  },
   methods: {
     // form submit
-    tijiao() {
+    update() {
       this.$dialog
         .confirm({
-          title: '确认提交吗?',
+          title: '确认修改吗?',
         })
         .then(async () => {
           console.log(this.formMsg);
           // on confirm
           const { data: res } = await this.$axios.Post(
-            this.$api.add_express,
+            this.$api.updateorder,
             this.formMsg,
           );
           // console.log(res);
           if (res.code == 200) {
-            this.$router.push('/home');
             this.$toast.success(res.msg);
+            setTimeout(() => {
+              this.$router.push('/mywaitorder');
+            }, 500);
           }
         })
         .catch(() => {

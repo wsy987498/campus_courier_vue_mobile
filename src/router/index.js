@@ -32,6 +32,11 @@ const routes = [
     name: 'newTask',
     component: () => import('../views/NewTask.vue')
   },
+  {
+    path: '/editTask',
+    name: 'editTask',
+    component: () => import('../views/editTask.vue')
+  },
   ,
   {
     path: '/mywaitorder',

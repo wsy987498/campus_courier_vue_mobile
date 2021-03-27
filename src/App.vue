@@ -75,7 +75,12 @@ export default {
     },
 
     onClickLeft() {
-      this.$router.go(-1);
+      let key = this.$route.fullPath;
+      if (key == '/mywaitorder') {
+        this.$router.push('/about');
+      } else {
+        this.$router.go(-1);
+      }
     },
     navTitle() {
       let key = this.$route.fullPath;

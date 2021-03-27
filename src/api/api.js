@@ -44,6 +44,9 @@ export default {
   // 获取派送时间
   getdeliverytime: '/mobile/getdeliverytime',
 
+  //修改发布订单
+  updateorder: '/mobile/updateorder',
+
 
 
 

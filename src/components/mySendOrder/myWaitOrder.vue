@@ -56,6 +56,13 @@
               </span>
             </div>
             <div class="foot_right">
+              <van-button
+                type="info"
+                size="small"
+                @click="editTask(item)"
+                style="margin-right:5px"
+                >编辑</van-button
+              >
               <van-button type="danger" size="small" @click="delTask(item)"
                 >删除</van-button
               >
@@ -82,6 +89,7 @@ export default {
         user_id: window.sessionStorage.getItem('user_id'),
       },
       total: 0,
+      editData: {},
     };
   },
   created() {
@@ -202,6 +210,15 @@ export default {
         .catch(() => {
           // on cancel
         });
+    },
+
+    editTask(data) {
+      // console.log(data);
+      this.editData = data;
+      // console.log(this.editData);
+      // this.$bus.$emit('getEditData', this.editData);
+      window.sessionStorage.setItem('editData', JSON.stringify(this.editData));
+      this.$router.push('/editTask');
     },
   },
 };
