@@ -47,6 +47,11 @@ export default {
   //修改发布订单
   updateorder: '/mobile/updateorder',
 
+  // 获取头像
+  getAvator: '/mobile/getAvator',
+  // 上传头像
+  uploadAvator: '/mobile/uploadAvator',
+
 
 
 

@@ -6,6 +6,9 @@ import './plugins/vant'
 import 'amfe-flexible/index.js'
 import './assets/css/global.css'
 import bus from './bus';
+
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
 // axios 
 import axios from "./api/http";
 // api

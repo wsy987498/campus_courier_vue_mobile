@@ -2,14 +2,20 @@
   <div class="about" v-if="islogin">
     <div class="top">
       <div class="top_one">
-        <!-- <div class="top_one_left">
-          <van-image
-            round
-            width="80px"
-            height="80px"
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
-          />
-        </div> -->
+        <div class="top_one_left">
+          <div class="avator">
+            <template v-if="avator == ''">
+              <input @click="upload" id="upload" type="file" />
+              <div class="avator_border">上传头像</div>
+            </template>
+            <template v-else>
+              <input @click="upload" id="upload" type="file" />
+              <div class="avator_border">
+                <img v-lazy="baseUrl + '/avator/' + avator + '.png'" alt="" />
+              </div>
+            </template>
+          </div>
+        </div>
         <div class="top_one_right">
           <div class="top_one_right_one">您好，{{ username }}！</div>
           <div class="top_one_right_two">
@@ -111,6 +117,9 @@ export default {
   components: { myrefreshBtn },
   data() {
     return {
+      avator: '',
+      // baseUrl: 'http://39.108.117.83/images/',
+      baseUrl: 'http://localhost:9000/images/',
       username: sessionStorage.getItem('username'),
       currentRate: 0,
       gradientColor: {
@@ -126,6 +135,9 @@ export default {
       token: window.sessionStorage.getItem('token'),
       user_id: {
         user_id: window.sessionStorage.getItem('user_id'),
+      },
+      postUsername: {
+        username: window.sessionStorage.getItem('username'),
       },
       finish: require('../assets/image/finish.png'),
       delivery: require('../assets/image/delivery.png'),
@@ -151,6 +163,8 @@ export default {
         this.$toast('刷新成功');
       }, 500);
     });
+
+    this.getAvartorMethod();
   },
 
   computed: {
@@ -162,6 +176,80 @@ export default {
     },
   },
   methods: {
+    async getAvartorMethod() {
+      if (this.token) {
+        const { data: res } = await this.$axios.Post(
+          this.$api.getAvator,
+          this.postUsername,
+        );
+        this.avator = res.avator;
+        window.sessionStorage.setItem('avator', res.avator);
+        // console.log('头像', res);
+        // console.log(this.avator);
+      }
+    },
+    upload() {
+      var upload = document.querySelector('#upload');
+      // console.log(upload);
+      var _that = this;
+      upload.addEventListener(
+        'change',
+        function() {
+          if (this.files.length != 0) {
+            var file = this.files[0],
+              reader = new FileReader();
+            if (!reader) {
+              this.value = '';
+              return;
+            }
+            reader.onload = function(e) {
+              this.value = '';
+              var image = new Image();
+              image.onload = function() {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = 100;
+                canvas.height = 100;
+                ctx.clearRect(0, 0, 100, 100);
+                ctx.drawImage(image, 0, 0, 100, 100);
+                var blob = canvas.toDataURL('image/png');
+                _that.$axios
+                  .Post(_that.$api.uploadAvator, {
+                    username: _that.username,
+                    avator: blob,
+                    // blob: ,
+                  })
+                  .then((data) => {
+                    const { data: res } = data;
+                    // console.log('data', res);
+                    _that.$toast({
+                      icon: 'success',
+                      message: res.msg,
+                    });
+                    window.sessionStorage.removeItem('avator');
+
+                    _that.getAvartorMethod();
+                  })
+                  .catch((e) => {
+                    // _that.$toast({
+                    //   icon: 'fail',
+                    //   message: e.message,
+                    //   success: () => {
+                    //     if (e.code == 404)
+                    //       _that.$router.push({ path: '/login' });
+                    //     localStorage.clear();
+                    //   },
+                    // });
+                  });
+              };
+              image.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        },
+        false,
+      );
+    },
     state() {
       const token = window.sessionStorage.getItem('token');
       if (!token) {
@@ -181,6 +269,7 @@ export default {
           this.$toast.success('退出成功');
           setTimeout(() => {
             this.islogin = false;
+            window.sessionStorage.clear();
             window.sessionStorage.removeItem('token');
           }, 800);
         })
@@ -301,7 +390,7 @@ export default {
       background: white;
       .top_one_left {
         flex-grow: 0.5;
-        background: white;
+        // backgrounrgb(3, 2, 2)ite;
       }
       .top_one_right {
         flex-grow: 1;
@@ -311,7 +400,7 @@ export default {
 
           height: 30px;
           text-align: left;
-          padding-left: 20px;
+          // padding-left: 20px;
         }
         .top_one_right_two {
           display: flex;
@@ -411,6 +500,42 @@ export default {
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
       }
+    }
+  }
+}
+.avator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+  // background: rgba(95, 113, 206, 0.7);
+  // padding: 1rem 0 0.5rem 0;
+  position: relative;
+
+  #upload {
+    position: absolute;
+    left: 50%;
+    top: 0.22rem;
+    transform: translateX(-50%);
+    width: 1.3rem;
+    height: 1.3rem;
+    opacity: 0;
+    z-index: 999999;
+  }
+
+  div.avator_border {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid black;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 1.5rem;
+    overflow: hidden;
+    font-size: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
