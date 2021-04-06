@@ -12,12 +12,16 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="card_box" v-for="item in list" :key="item.express_id">
+        <div
+          class="card_box"
+          v-for="item in list"
+          :key="item.istake_express_id"
+        >
           <!-- head -->
           <div class="head">
             <div class="head_left">
               <span>
-                {{ item.express_name }}
+                {{ item.istake_express_name }}
               </span>
               <!-- <span class="tag">
                 <van-tag round size="large" type="success"
@@ -26,7 +30,7 @@
               </span> -->
             </div>
             <div class="head_right">
-              <span> 收件人：{{ item.express_recipients }} </span>
+              <span> 收件人：{{ item.istake_express_recipients }} </span>
             </div>
           </div>
           <!-- main -->
@@ -37,7 +41,7 @@
             </div> -->
             <div class="two">
               期望送达时间：
-              {{ item.forward_delivery_time | DateFilter }}
+              {{ item.istake_forward_delivery_time | DateFilter }}
             </div>
           </div>
           <!-- foot -->
@@ -49,7 +53,9 @@
               </span> -->
               <span>
                 取件人：
-                <span style="font-weight:bold"> {{ item.qujianren }}</span>
+                <span style="font-weight:bold">
+                  {{ item.istake_qujianren }}</span
+                >
               </span>
             </div>
             <div class="foot_right">
@@ -215,8 +221,8 @@ export default {
 
     detail(data) {
       // console.log('detail', data);
-      this.step_express_name = data.express_name;
-      this.step_create_time = data.create_time;
+      this.step_express_name = data.istake_express_name;
+      this.step_create_time = data.istake_create_time;
       this.show = true;
     },
   },

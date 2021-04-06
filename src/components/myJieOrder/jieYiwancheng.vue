@@ -12,17 +12,17 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="card_box" v-for="item in list" :key="item.express_id">
+        <div class="card_box" v-for="item in list" :key="item.isfi_express_id">
           <!-- head -->
           <div class="head">
             <div class="head_left">
               <span>
                 <!-- 中通快递 -->
-                {{ item.express_name }}
+                {{ item.isfi_express_name }}
               </span>
               <span class="tag">
                 <van-tag round size="large" type="success">{{
-                  item.istakeit ? '已收件' : ''
+                  item.isfi_istakeit ? '已收件' : ''
                 }}</van-tag>
               </span>
             </div>
@@ -36,17 +36,17 @@
           <div class="main">
             <div class="one">
               收件地址：
-              {{ item.delivery_address }}
+              {{ item.isfi_delivery_address }}
             </div>
             <div class="two">
               联系方式：
-              {{ item.phone }}
+              {{ item.isfi_phone }}
             </div>
           </div>
           <!-- foot -->
           <div class="foot">
             <div class="foot_left">
-              <span> 快递类型：{{ item.express_type }} </span>
+              <span> 快递类型：{{ item.isfi_express_type }} </span>
             </div>
             <div class="foot_right">
               <van-button type="info" size="small" @click="detail(item)"
@@ -211,13 +211,14 @@ export default {
         this.$api.getdeliverytime,
         data,
       );
+
       if (res.code == 200) {
-        this.step_delivery_time = res.data[0].create_time;
+        this.step_delivery_time = res.data[0].outof_create_time;
       } else {
         this.step_delivery_time = '';
       }
-      this.step_express_name = data.express_name;
-      this.step_finish_time = data.create_time;
+      this.step_express_name = data.isfi_express_name;
+      this.step_finish_time = data.isfi_create_time;
       this.show = true;
     },
   },

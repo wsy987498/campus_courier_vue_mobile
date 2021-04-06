@@ -213,7 +213,7 @@ export default {
     },
 
     editTask(data) {
-      // console.log(data);
+      console.log(data);
       this.editData = data;
       // console.log(this.editData);
       // this.$bus.$emit('getEditData', this.editData);

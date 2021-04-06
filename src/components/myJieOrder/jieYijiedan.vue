@@ -12,24 +12,24 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <div class="card_box" v-for="item in list" :key="item.express_id">
+        <div class="card_box" v-for="item in list" :key="item.isrec_express_id">
           <!-- head -->
           <div class="head">
             <div class="head_left">
               <span>
                 <!-- 中通快递 -->
-                {{ item.express_name }}
+                {{ item.isrec_express_name }}
               </span>
               <span class="tag">
                 <van-tag round size="large" type="success"
-                  >取件码：{{ item.pick_code }}</van-tag
+                  >取件码：{{ item.isrec_pick_code }}</van-tag
                 >
               </span>
             </div>
             <div class="head_right">
               <span>
                 <!-- 10分钟前 -->
-                收件人：{{ item.express_recipients }}
+                收件人：{{ item.isrec_express_recipients }}
               </span>
             </div>
           </div>
@@ -38,22 +38,22 @@
             <div class="one">
               配送地址：
               <!-- 北海校区东区2#E320 -->
-              {{ item.delivery_address }}
+              {{ item.isrec_delivery_address }}
             </div>
             <div class="two">
               期望送达时间：
               <!-- 2021-2-28 15:00 -->
-              {{ item.forward_delivery_time | DateFilter }}
+              {{ item.isrec_forward_delivery_time | DateFilter }}
             </div>
           </div>
           <!-- foot -->
-          <div class="remarks">备注：{{ item.remarks }}</div>
+          <div class="remarks">备注：{{ item.isrec_remarks }}</div>
           <div class="foot">
             <div class="foot_left">
               <span>
                 快递类型：
                 <!-- 大包裹 -->
-                {{ item.express_type }}
+                {{ item.isrec_express_type }}
               </span>
             </div>
 
@@ -62,7 +62,7 @@
                 type="primary"
                 size="small"
                 @click="isTakeit(item)"
-                v-if="item.istakeit == 'false'"
+                v-if="item.isrec_istakeit == 'false'"
                 >已取件</van-button
               >
               <van-button
@@ -70,7 +70,7 @@
                 size="small"
                 style="margin-left:5px"
                 @click="isComplete(item)"
-                v-if="item.istakeit == 'true'"
+                v-if="item.isrec_istakeit == 'true'"
                 >完成</van-button
               >
               <van-button
@@ -78,7 +78,7 @@
                 size="small"
                 style="margin-left:5px"
                 @click="delTask(item)"
-                v-if="item.istakeit == 'false'"
+                v-if="item.isrec_istakeit == 'false'"
                 >取消</van-button
               >
             </div>
@@ -261,7 +261,7 @@ export default {
         })
         .then(async () => {
           // console.log(data);
-          data.istakeit = true;
+          data.isrec_istakeit = true;
           data.qujianren = window.sessionStorage.getItem('username');
           const { data: res } = await this.$axios.Post(
             this.$api.havetoTake_list,

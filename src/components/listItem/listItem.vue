@@ -36,7 +36,7 @@
           <!-- main -->
           <div class="main">
             <div class="one">
-              配送地址：
+              取件地址：
               <!-- 北海校区东区2#E320 -->
               {{ item.delivery_address }}
             </div>

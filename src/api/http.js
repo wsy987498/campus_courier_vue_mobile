@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//const apiUrl = 'http://localhost:9000'//本地
-const apiUrl = 'http://39.108.117.83'//线上
+const apiUrl = 'http://localhost:9000'//本地
+// const apiUrl = 'http://39.108.117.83'//线上
 export default {
   fetchGet(url, param) {
     let tokention = JSON.parse(sessionStorage.getItem('tokention'))
