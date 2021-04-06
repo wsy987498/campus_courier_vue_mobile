@@ -118,8 +118,8 @@ export default {
   data() {
     return {
       avator: '',
-      // baseUrl: 'http://39.108.117.83/images/',
-      baseUrl: 'http://localhost:9000/images/',
+      baseUrl: 'http://39.108.117.83/images/',
+      // baseUrl: 'http://localhost:9000/images/',
       username: sessionStorage.getItem('username'),
       currentRate: 0,
       gradientColor: {
