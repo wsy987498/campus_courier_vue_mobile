@@ -1,6 +1,6 @@
 <template>
   <div class="newTaskBox">
-    <van-form class="subForm">
+    <van-form class="subForm" @submit="onSubmit">
       <!-- 快递公司 -->
       <van-field
         readonly
@@ -115,7 +115,8 @@
         show-word-limit
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" @click="update"
+        <!-- @click="update" -->
+        <van-button round block type="info" native-type="submit"
           >确认修改</van-button
         >
       </div>
@@ -166,24 +167,28 @@ export default {
   },
   methods: {
     // form submit
-    update() {
+    onSubmit() {
       this.$dialog
         .confirm({
           title: '确认修改吗?',
         })
         .then(async () => {
-          console.log(this.formMsg);
+          // console.log(this.formMsg);
           // on confirm
-          const { data: res } = await this.$axios.Post(
-            this.$api.updateorder,
-            this.formMsg,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            setTimeout(() => {
-              this.$router.push('/mywaitorder');
-            }, 500);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.updateorder,
+              this.formMsg,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.$router.push('/mywaitorder');
+              }, 500);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {

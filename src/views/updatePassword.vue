@@ -65,16 +65,20 @@ export default {
           this.$toast('密码不一致!');
         } else {
           // console.log(this.loginForm);
-          const { data: res } = await this.$axios.Post(
-            this.$api.updatePassword,
-            this.loginForm,
-          );
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            window.sessionStorage.clear();
-            setTimeout(() => {
-              this.$router.push('/login');
-            }, 1000);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.updatePassword,
+              this.loginForm,
+            );
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              window.sessionStorage.clear();
+              setTimeout(() => {
+                this.$router.push('/login');
+              }, 1000);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         }
       } else {

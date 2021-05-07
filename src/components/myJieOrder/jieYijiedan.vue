@@ -209,18 +209,22 @@ export default {
         })
         .then(async () => {
           // console.log(data);
-          const { data: res } = await this.$axios.Post(
-            this.$api.addtoFinished,
-            data,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            setTimeout(() => {
-              this.initPageData.page = 1;
-              this.list = [];
-              this.initData();
-            }, 1000);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.addtoFinished,
+              data,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.initPageData.page = 1;
+                this.list = [];
+                this.initData();
+              }, 1000);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {
@@ -235,18 +239,22 @@ export default {
         })
         .then(async () => {
           // console.log(data);
-          const { data: res } = await this.$axios.Post(
-            this.$api.deltoJiedan,
-            data,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            setTimeout(() => {
-              this.initPageData.page = 1;
-              this.list = [];
-              this.initData();
-            }, 1000);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.deltoJiedan,
+              data,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.initPageData.page = 1;
+                this.list = [];
+                this.initData();
+              }, 1000);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {
@@ -263,18 +271,22 @@ export default {
           // console.log(data);
           data.isrec_istakeit = true;
           data.qujianren = window.sessionStorage.getItem('username');
-          const { data: res } = await this.$axios.Post(
-            this.$api.havetoTake_list,
-            data,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            setTimeout(() => {
-              this.initPageData.page = 1;
-              this.list = [];
-              this.initData();
-            }, 1000);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.havetoTake_list,
+              data,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.initPageData.page = 1;
+                this.list = [];
+                this.initData();
+              }, 1000);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {

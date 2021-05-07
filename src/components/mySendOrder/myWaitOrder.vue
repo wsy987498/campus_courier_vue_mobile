@@ -193,18 +193,22 @@ export default {
         })
         .then(async () => {
           // console.log(data);
-          const { data: res } = await this.$axios.Post(
-            this.$api.delmytask,
-            express_id,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$toast.success(res.msg);
-            setTimeout(() => {
-              this.initPageData.page = 1;
-              this.list = [];
-              this.initData();
-            }, 1000);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.delmytask,
+              express_id,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$toast.success(res.msg);
+              setTimeout(() => {
+                this.initPageData.page = 1;
+                this.list = [];
+                this.initData();
+              }, 1000);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {

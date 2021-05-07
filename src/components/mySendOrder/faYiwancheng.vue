@@ -215,16 +215,20 @@ export default {
       this.onLoad();
     },
     async detail(data) {
-      console.log('detail', data);
-      const { data: res } = await this.$axios.Post(
-        this.$api.getdeliverytime,
-        data,
-      );
-      console.log('test', res);
-      if (res.code == 200) {
-        this.step_delivery_time = res.data[0].outof_create_time;
-      } else {
-        this.step_delivery_time = '';
+      // console.log('detail', data);
+      try {
+        const { data: res } = await this.$axios.Post(
+          this.$api.getdeliverytime,
+          data,
+        );
+        // console.log('test', res);
+        if (res.code == 200) {
+          this.step_delivery_time = res.data[0].outof_create_time;
+        } else {
+          this.step_delivery_time = '';
+        }
+      } catch (error) {
+        if (error) return this.$toast.fail('Network Error');
       }
       this.step_express_name = data.isfi_express_name;
       this.step_finish_time = data.isfi_create_time;

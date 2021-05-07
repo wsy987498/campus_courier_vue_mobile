@@ -21,9 +21,9 @@
                 {{ item.express_name }}
               </span>
               <span class="tag">
-                <van-tag round size="large" type="primary"
+                <!-- <van-tag round size="large" type="primary"
                   >赏金：{{ item.express_money }} 元</van-tag
-                >
+                > -->
               </span>
             </div>
             <div class="head_right">
@@ -163,37 +163,41 @@ export default {
   },
   methods: {
     async initData() {
-      const { data: res } = await this.$axios.Post(
-        this.$api.express_list,
-        this.initPageData,
-      );
-      this.$toast.loading({
-        message: '加载中...',
-        forbidClick: true,
-        loadingType: 'spinner',
-        duration: 800,
-      });
-      // console.log(res.data);
-      setTimeout(() => {
-        let rows = res.data;
-        this.loading = false;
-        this.total = res.data.total;
-        if (this.refreshing) {
-          this.list = [];
-          this.refreshing = false;
-        }
-        if (rows == null || rows.length === 0) {
-          // 加载结束
-          this.finished = true;
-          return;
-        }
-        this.list = this.list.concat(rows);
-        if (this.list.length >= this.total) {
-          this.finished = true;
-        }
-        this.$emit('childListData', this.list);
-        this.$toast.clear();
-      }, 1000);
+      try {
+        const { data: res } = await this.$axios.Post(
+          this.$api.express_list,
+          this.initPageData,
+        );
+        this.$toast.loading({
+          message: '加载中...',
+          forbidClick: true,
+          loadingType: 'spinner',
+          duration: 800,
+        });
+        // console.log(res.data);
+        setTimeout(() => {
+          let rows = res.data;
+          this.loading = false;
+          this.total = res.data.total;
+          if (this.refreshing) {
+            this.list = [];
+            this.refreshing = false;
+          }
+          if (rows == null || rows.length === 0) {
+            // 加载结束
+            this.finished = true;
+            return;
+          }
+          this.list = this.list.concat(rows);
+          if (this.list.length >= this.total) {
+            this.finished = true;
+          }
+          this.$emit('childListData', this.list);
+          this.$toast.clear();
+        }, 1000);
+      } catch (error) {
+        if (error) return this.$toast.fail('Network Error');
+      }
     },
     async onLoad() {
       this.initPageData.page++;
@@ -218,18 +222,22 @@ export default {
           .then(async () => {
             // on confirm
             // console.log(data);
-            const { data: res } = await this.$axios.Post(
-              this.$api.addtoReceiving,
-              data,
-            );
-            // console.log(res);
-            if (res.code == 200) {
-              this.$toast.success(res.msg);
-              setTimeout(() => {
-                this.initPageData.page = 1;
-                this.list = [];
-                this.initData();
-              }, 1000);
+            try {
+              const { data: res } = await this.$axios.Post(
+                this.$api.addtoReceiving,
+                data,
+              );
+              // console.log(res);
+              if (res.code == 200) {
+                this.$toast.success(res.msg);
+                setTimeout(() => {
+                  this.initPageData.page = 1;
+                  this.list = [];
+                  this.initData();
+                }, 1000);
+              }
+            } catch (error) {
+              if (error) return this.$toast.fail('Network Error');
             }
           })
           .catch(() => {

@@ -32,47 +32,55 @@ export default {
       // console.log('login', this.loginForm);
       const isnull = this.isNull();
       if (isnull) return;
+      try {
+        const { data: res } = await this.$axios.Post(
+          this.$api.login,
+          this.loginForm,
+        );
+        // console.log(res);
 
-      const { data: res } = await this.$axios.Post(
-        this.$api.login,
-        this.loginForm,
-      );
-      // console.log(res);
-
-      if (res.code == 202) {
-        this.$toast({
-          message: res.msg,
-          icon: 'cross',
-        });
-        this.loginForm.username = '';
-        this.loginForm.password = '';
-      } else if (res.code == 200) {
-        this.$toast.success(res.msg);
-        window.sessionStorage.setItem('token', res.token);
-        window.sessionStorage.setItem('username', res.username);
-        window.sessionStorage.setItem('user_id', res.id);
-        this.$router.push('/about');
+        if (res.code == 202) {
+          this.$toast({
+            message: res.msg,
+            icon: 'cross',
+          });
+          this.loginForm.username = '';
+          this.loginForm.password = '';
+        } else if (res.code == 200) {
+          this.$toast.success(res.msg);
+          window.sessionStorage.setItem('token', res.token);
+          window.sessionStorage.setItem('username', res.username);
+          window.sessionStorage.setItem('user_id', res.id);
+          this.$router.push('/about');
+        }
+      } catch (error) {
+        // console.log('conso', error);
+        if (error) return this.$toast.fail('Network Error');
       }
     },
     async register() {
       // console.log('register', this.loginForm);
       const isnull = this.isNull();
       if (isnull) return;
-      const { data: res } = await this.$axios.Post(
-        this.$api.register,
-        this.loginForm,
-      );
+      try {
+        const { data: res } = await this.$axios.Post(
+          this.$api.register,
+          this.loginForm,
+        );
 
-      if (res.code == 200) {
-        this.$toast.success(res.msg);
-        this.reload();
-      } else {
-        this.$toast({
-          message: res.msg,
-          icon: 'cross',
-        });
-        this.loginForm.username = '';
-        this.loginForm.password = '';
+        if (res.code == 200) {
+          this.$toast.success(res.msg);
+          this.reload();
+        } else {
+          this.$toast({
+            message: res.msg,
+            icon: 'cross',
+          });
+          this.loginForm.username = '';
+          this.loginForm.password = '';
+        }
+      } catch (error) {
+        if (error) return this.$toast.fail('Network Error');
       }
     },
   },

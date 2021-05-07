@@ -1,6 +1,6 @@
 <template>
   <div class="newTaskBox">
-    <van-form class="subForm">
+    <van-form class="subForm" @submit="onSubmit">
       <!-- 快递公司 -->
       <van-field
         readonly
@@ -102,6 +102,25 @@
         placeholder="赏金"
         :rules="[{ required: true, message: '请输入赏金' }]"
       />
+      <!-- uid -->
+      <van-field
+        type="number"
+        v-model="formMsg.user_id"
+        name="user_id"
+        label="user_id："
+        placeholder="user_id"
+        :rules="[{ required: true, message: 'user_id' }]"
+        class="display"
+      />
+      <!-- istakeit -->
+      <van-field
+        v-model="formMsg.istakeit"
+        name="istakeit"
+        label="istakeit："
+        placeholder="istakeit"
+        :rules="[{ required: true, message: 'istakeit' }]"
+        class="display"
+      />
       <!-- 备注 -->
       <van-field
         name="remarks"
@@ -114,8 +133,11 @@
         placeholder="请输入备注"
         show-word-limit
       />
+      <!--  @click="tijiao" -->
       <div style="margin: 16px;">
-        <van-button round block type="info" @click="tijiao">提交</van-button>
+        <van-button round block type="info" native-type="submit"
+          >提交</van-button
+        >
       </div>
     </van-form>
   </div>
@@ -153,14 +175,14 @@ export default {
         express_money: '',
         remarks: '',
         user_id: window.sessionStorage.getItem('user_id'),
-        istakeit: false,
+        istakeit: false + '',
       },
     };
   },
 
   methods: {
     // form submit
-    tijiao() {
+    onSubmit() {
       this.$dialog
         .confirm({
           title: '确认提交吗?',
@@ -168,14 +190,18 @@ export default {
         .then(async () => {
           console.log(this.formMsg);
           // on confirm
-          const { data: res } = await this.$axios.Post(
-            this.$api.add_express,
-            this.formMsg,
-          );
-          // console.log(res);
-          if (res.code == 200) {
-            this.$router.push('/home');
-            this.$toast.success(res.msg);
+          try {
+            const { data: res } = await this.$axios.Post(
+              this.$api.add_express,
+              this.formMsg,
+            );
+            // console.log(res);
+            if (res.code == 200) {
+              this.$router.push('/home');
+              this.$toast.success(res.msg);
+            }
+          } catch (error) {
+            if (error) return this.$toast.fail('Network Error');
           }
         })
         .catch(() => {
@@ -211,4 +237,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.display {
+  display: none;
+}
+</style>

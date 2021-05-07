@@ -178,14 +178,18 @@ export default {
   methods: {
     async getAvartorMethod() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.getAvator,
-          this.postUsername,
-        );
-        this.avator = res.avator;
-        window.sessionStorage.setItem('avator', res.avator);
-        // console.log('头像', res);
-        // console.log(this.avator);
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.getAvator,
+            this.postUsername,
+          );
+          this.avator = res.avator;
+          window.sessionStorage.setItem('avator', res.avator);
+          // console.log('头像', res);
+          // console.log(this.avator);
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
     upload() {
@@ -231,15 +235,7 @@ export default {
                     _that.getAvartorMethod();
                   })
                   .catch((e) => {
-                    // _that.$toast({
-                    //   icon: 'fail',
-                    //   message: e.message,
-                    //   success: () => {
-                    //     if (e.code == 404)
-                    //       _that.$router.push({ path: '/login' });
-                    //     localStorage.clear();
-                    //   },
-                    // });
+                    if (e) return _that.$toast.fail('Network Error');
                   });
               };
               image.src = e.target.result;
@@ -301,52 +297,72 @@ export default {
     //我的发单 待接单 num
     async getWaitOrderNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.getWaitOrderNum,
-          this.user_id,
-        );
-        this.waitOrderNum = res.total;
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.getWaitOrderNum,
+            this.user_id,
+          );
+          this.waitOrderNum = res.total;
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
     // 我的发单 派送中 num
     async gethavetoTakeNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.gethavetoTakeNum,
-          this.user_id,
-        );
-        this.paisongNum = res.total;
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.gethavetoTakeNum,
+            this.user_id,
+          );
+          this.paisongNum = res.total;
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
     // 我的发单 已完成 num
     async getfadanFinishedNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.getfadanFinishedNum,
-          this.user_id,
-        );
-        this.jiedanFinishedNum = res.total;
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.getfadanFinishedNum,
+            this.user_id,
+          );
+          this.jiedanFinishedNum = res.total;
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
 
     // 我的接单 已接单 num
     async getReceivingNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.getReceivingNum,
-          this.user_id,
-        );
-        this.ReceivingNum = res.total;
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.getReceivingNum,
+            this.user_id,
+          );
+          this.ReceivingNum = res.total;
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
     // 我的接单 已完成 num
     async getFinishedNum() {
       if (this.token) {
-        const { data: res } = await this.$axios.Post(
-          this.$api.getFinishedNum,
-          this.user_id,
-        );
-        this.FinishedNum = res.total;
+        try {
+          const { data: res } = await this.$axios.Post(
+            this.$api.getFinishedNum,
+            this.user_id,
+          );
+          this.FinishedNum = res.total;
+        } catch (error) {
+          if (error) return this.$toast.fail('Network Error');
+        }
       }
     },
     updatePassword() {
@@ -538,5 +554,8 @@ export default {
       height: 100%;
     }
   }
+}
+.bottom-button {
+  padding: 25px 20px 25px 20px;
 }
 </style>
